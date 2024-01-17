@@ -2,11 +2,68 @@ name: Build & Test Zephyr Application
 
 on:
   workflow_call:
+    inputs:
+      application:
+        required: true
+        type: string
+      board:
+        required: false
+        type: string
+      container:
+        required: false
+        type: string
+        default: "zephyrprojectrtos/ci"
+      extra_cmd:
+        required: false
+        type: string
+        description: "Extra command to run before build"
+        default: ""
+    secrets:
+      personal_access_token:
+        required: true
+
+
+permissions: read-all
 
 jobs:
   pre-commit:
-    runs-on: ubuntu-latest
+    uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
+  build:
+    runs-on: self-hosted
+    container:
+      image: ${{ inputs.container }}
+      options: --user root --privileged
+    env:
+      CMAKE_PREFIX_PATH: /opt/toolchains
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-      - uses: pre-commit/action@v3.0.0
+      - name: Extra command
+        if: ${{ inputs.extra_cmd }}
+        run: ${{ inputs.extra_cmd }}
+      - name: Setup permission
+        run: |
+          git config --global credential.helper store
+          echo "https://$GITHUB_ACTOR:${{ secrets.personal_access_token }}@github.com" >~/.git-credentials
+      - uses: actions/checkout@v4
+        with:
+          path: workdir
+      - name: Init Zephyr Application
+        run: |
+          rm -rf .west
+          west init -l workdir
+      - name: Update Zephyr Application
+        run: west update
+      - name: Build Zephyr Application
+        if: ${{ inputs.board }}
+        run: west build -b ${{ inputs.board }} workdir/${{ inputs.application }}
+      - name: Build Zephyr Application
+        if: ${{ !inputs.board }}
+        run: west build workdir/${{ inputs.application }}
+      - name: Clean up
+        if: always()
+        run: |
+          rm -rf workdir
+          rm -rf .west
+          rm -rf ${{ github.workspace }}
+
+
+
