@@ -54,10 +54,10 @@ jobs:
         run: west update
       - name: Build Zephyr Application
         if: ${{ inputs.board }}
-        run: west build -b ${{ inputs.board }} workdir/${{ inputs.application }}
+        run: west build -b ${{ inputs.board }} workdir/${{ inputs.application }} -p
       - name: Build Zephyr Application
         if: ${{ !inputs.board }}
-        run: west build workdir/${{ inputs.application }}
+        run: west build workdir/${{ inputs.application }} -p
       - name: Clean up
         if: always()
         run: |
