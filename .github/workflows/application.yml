@@ -39,10 +39,10 @@ jobs:
       - name: Extra command
         if: ${{ inputs.extra_cmd }}
         run: ${{ inputs.extra_cmd }}
-      - name: Setup permission
-        run: |
-          git config --global credential.helper store
-          echo "https://$GITHUB_ACTOR:${{ secrets.personal_access_token }}@github.com" >~/.git-credentials
+      - name: Set up Git credential
+        uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: ${{ secrets.personal_access_token }}
       - uses: actions/checkout@v4
         with:
           path: workdir
