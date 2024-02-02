@@ -2,10 +2,39 @@ name: Build & Test Zephyr Driver
 
 on:
   workflow_call:
+    inputs:
+      application:
+        required: true
+        type: string
+      board:
+        required: false
+        type: string
+      container:
+        required: false
+        type: string
+        default: "zephyrprojectrtos/ci"
+      extra_cmd:
+        required: false
+        type: string
+        description: "Extra command to run before build"
+        default: ""
+    secrets:
+      personal_access_token:
+        required: true
 
 jobs:
-  build_and_test_ros2_package:
+  pre-commit:
+    uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
+  build:
     runs-on: self-hosted
+    container: ${{ inputs.container }}
+    env: 
+      CMAKE_PREFIX_PATH: /opt/toolchains
     steps:
-      - name: Hello world
-        run: echo "Hello world"
+      - uses: catie-aq/zephyr_workflows/generate_manifest@7-create-cicd-for-zephyr-driver
+        with:
+          application: ${{ inputs.application }}
+          board: ${{ inputs.board }}
+
+    
+    

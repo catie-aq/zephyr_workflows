@@ -1,0 +1,35 @@
+name: 'Generate Zephyr Manifest'
+description: 'Generates the west.yml file'
+inputs:
+  zephyr_revision:
+    required: false
+    type: string
+    default: "main"
+  repository_revision:
+    required: false
+    type: string
+    default: "master"
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Generate YAML file
+      shell: bash
+      run: |
+        cat << EOF > 6tron-project/west.yml
+        manifest:
+          remotes:
+            - name: zephyrproject-rtos
+              url-base: https://github.com/zephyrproject-rtos
+            - name: catie-6tron
+              url-base: https://github.com/catie-aq
+          projects:
+            - name: zephyr
+              remote: zephyrproject-rtos
+              revision: ${{ inputs.zephyr_revision }}
+              import: true
+            - name: zephyr_ams-as621x
+              remote: catie-6tron
+              revision: ${{ inputs.repository_revision }}
+        EOF
