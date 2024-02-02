@@ -21,7 +21,7 @@ on:
         default: ""
     secrets:
       personal_access_token:
-        required: true
+        required: false
 
 jobs:
   pre-commit:
