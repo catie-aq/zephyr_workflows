@@ -27,6 +27,7 @@ runs:
       if: ${{ inputs.extra_cmd }}
       run: ${{ inputs.extra_cmd }}
     - name: Setup permission
+      shell: bash
       run: |
         git config --global credential.helper store
         echo "https://$GITHUB_ACTOR:${{ inputs.personal_access_token }}@github.com" >~/.git-credentials
@@ -34,18 +35,23 @@ runs:
       with:
         path: workdir
     - name: Init Zephyr Application
+      shell: bash
       run: |
         rm -rf .west
         west init -l workdir
     - name: Update Zephyr Application
+      shell: bash
       run: west update
     - name: Build Zephyr Application
+      shell: bash
       if: ${{ inputs.board }}
       run: west build -b ${{ inputs.board }} workdir/${{ inputs.application }} -p
     - name: Build Zephyr Application
+      shell: bash
       if: ${{ !inputs.board }}
       run: west build workdir/${{ inputs.application }} -p
     - name: Clean up
+      shell: bash
       if: always()
       run: |
         rm -rf workdir
