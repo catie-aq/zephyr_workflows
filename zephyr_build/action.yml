@@ -7,25 +7,12 @@ inputs:
   board:
     required: false
     type: string
-  container:
-    required: false
-    type: string
-    default: "zephyrprojectrtos/ci"
-  extra_cmd:
-    required: false
-    type: string
-    description: "Extra command to run before build"
-    default: ""
   personal_access_token:
     required: true
 
 runs:
   using: "composite"
   steps:
-    - name: Extra command
-      shell: bash
-      if: ${{ inputs.extra_cmd }}
-      run: ${{ inputs.extra_cmd }}
     - name: Setup permission
       shell: bash
       run: |
@@ -50,10 +37,4 @@ runs:
       shell: bash
       if: ${{ !inputs.board }}
       run: west build workdir/${{ inputs.application }} -p
-    - name: Clean up
-      shell: bash
-      if: always()
-      run: |
-        rm -rf workdir
-        rm -rf .west
-        rm -rf ${{ github.workspace }}
+
