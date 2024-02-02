@@ -29,6 +29,9 @@ runs:
         west update
     - name: Build Zephyr Application
       shell: bash
+      if: ${{ inputs.board }}
+      run: west build -b ${{ inputs.board }} workdir/${{ inputs.application }} -p
+    - name: Build Zephyr Application
+      shell: bash
       if: ${{ !inputs.board }}
       run: west build workdir/${{ inputs.application }} -p
-
