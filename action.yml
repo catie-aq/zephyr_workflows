@@ -16,7 +16,6 @@ inputs:
     type: string
     description: "Extra command to run before build"
     default: ""
-secrets:
   personal_access_token:
     required: true
 
