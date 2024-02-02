@@ -38,3 +38,7 @@ runs:
               remote: catie-6tron
               revision: ${{ inputs.repository_revision }}
         EOF
+    - name: Debug
+      shell: bash
+      run: |
+        cat 6tron-project/west.yml
