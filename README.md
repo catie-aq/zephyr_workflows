@@ -15,11 +15,11 @@ Ce workflow applique les étapes suivantes :
   - `west update`
   - `west build -b <target>`
 
-Le workflow possèdes les paramètres suivants :
+Le workflow possède les paramètres suivants :
 
 - `container` : Image Docker à utiliser pour l'exécution des commandes. Par défaut : `zephyrprojectrtos/ci`
-- `board` : Cible à utiliser pour la compilation. **Obligatoire**.
-- `application` : Nom de l'application à compiler. **Obligatoire**.
+- `board` : Cible à utiliser pour la compilation.
+- `application` : Chemin de l'application à compiler. **Obligatoire**.
 - `extra_cmd` : Commandes supplémentaires à exécuter avant la compilation. Par défaut : ``
 - `personal_access_token` : Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés. **Obligatoire**.
 
