@@ -10,10 +10,7 @@ le cadre d'Actions Github.
 Ce workflow applique les étapes suivantes :
 
 - Vérification de pre-commit si le fichier `.pre-commit-config.yaml` est présent dans le dépôt
-- Test de compilation de l'application avec les commandes suivantes :
-  - `west init -l workdir`
-  - `west update`
-  - `west build -b <target>`
+- Test de compilation de l'application en utilisant [Zephyr Build](#zephyr-build)
 
 Le workflow possèdes les paramètres suivants :
 
@@ -21,6 +18,16 @@ Le workflow possèdes les paramètres suivants :
 - `board` : Cible à utiliser pour la compilation. **Obligatoire**.
 - `application` : Nom de l'application à compiler. **Obligatoire**.
 - `extra_cmd` : Commandes supplémentaires à exécuter avant la compilation. Par défaut : ``
+- `personal_access_token` : Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés. **Obligatoire**.
+
+## Actions Disponibles
+
+### Zephyr Build
+
+Cette action permet de compiler une application Zephyr. Elle prend en charge les paramètres suivants :
+
+- `board` : Cible à utiliser pour la compilation. **Obligatoire**.
+- `application` : Nom de l'application à compiler. **Obligatoire**.
 - `personal_access_token` : Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés. **Obligatoire**.
 
 ## Utilisation
