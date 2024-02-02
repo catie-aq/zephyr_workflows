@@ -37,4 +37,9 @@ jobs:
       CMAKE_PREFIX_PATH: /opt/toolchains
     steps:
       - uses: catie-aq/zephyr_workflows@5-Add-driver-ci-cd-pipeline
+        with:
+          application: ${{ inputs.application }}
+          board: ${{ inputs.board }}
+          extra_cmd: ${{ inputs.extra_cmd }}
+          personal_access_token: ${{ secrets.personal_access_token }}
 
