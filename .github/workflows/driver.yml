@@ -6,10 +6,19 @@ on:
       application:
         required: false
         type: string
-        default: "sample"
+        default: "samples"
       board:
         required: false
         type: string
+        default: "zest_core_stm32l4a6rg"
+      repo_board:
+        required: false
+        type: string
+        default: "zephyr_zest-core-stm32l4a6rg"
+      zephyr_revision:
+        required: false
+        type: string
+        default: "latest"
       container:
         required: false
         type: string
@@ -32,9 +41,40 @@ jobs:
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
     steps:
+      - name: Extra command
+        if: ${{ inputs.extra_cmd }}
+        run: ${{ inputs.extra_cmd }}
+
+      - name: Get branch names
+        id: branch-names
+        uses: tj-actions/branch-names@v8
+        
+      - name: Get latest Zephyr
+        if: ${{ inputs.zephyr_revision == 'latest' }}
+        id: get-latest-zephyr
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          owner: zephyrproject-rtos
+          repo: zephyr
+          excludes: prerelease, draft
+      
       - uses: catie-aq/zephyr_workflows/generate_manifest@7-create-cicd-for-zephyr-driver
+        with:
+          repo_board: ${{ inputs.repo_board }}
+          zephyr_revision: ${{ steps.get-latest-zephyr.outputs.release || inputs.zephyr_revision }}
+          repository_revision: ${{ steps.branch-names.outputs.current_branch }}
+
       - uses: catie-aq/zephyr_workflows/zephyr_build@7-create-cicd-for-zephyr-driver
-        with: 
-          application: ${{ inputs.application }}
+        with:
+          application: ${{ github.event.repository.name }}/${{ inputs.application }}
           board: ${{ inputs.board }}
           personal_access_token: ${{ secrets.personal_access_token }}
+          extra_cmd: "cd workdir"
+      - name: Clean up
+        if: always()
+        run: |
+          rm -rf workdir
+          rm -rf .west
+          rm -rf ${{ github.workspace }}
+  
+      
