@@ -1,0 +1,53 @@
+name: 'Zephyr Build'
+description: 'Builds the Zephyr project'
+inputs:
+  application:
+    required: true
+    type: string
+  board:
+    required: false
+    type: string
+  container:
+    required: false
+    type: string
+    default: "zephyrprojectrtos/ci"
+  extra_cmd:
+    required: false
+    type: string
+    description: "Extra command to run before build"
+    default: ""
+secrets:
+  personal_access_token:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Extra command
+      if: ${{ inputs.extra_cmd }}
+      run: ${{ inputs.extra_cmd }}
+    - name: Setup permission
+      run: |
+        git config --global credential.helper store
+        echo "https://$GITHUB_ACTOR:${{ secrets.personal_access_token }}@github.com" >~/.git-credentials
+    - uses: actions/checkout@v4
+      with:
+        path: workdir
+    - name: Init Zephyr Application
+      run: |
+        rm -rf .west
+        west init -l workdir
+    - name: Update Zephyr Application
+      run: west update
+    - name: Build Zephyr Application
+      if: ${{ inputs.board }}
+      run: west build -b ${{ inputs.board }} workdir/${{ inputs.application }} -p
+    - name: Build Zephyr Application
+      if: ${{ !inputs.board }}
+      run: west build workdir/${{ inputs.application }} -p
+    - name: Clean up
+      if: always()
+      run: |
+        rm -rf workdir
+        rm -rf .west
+        rm -rf ${{ github.workspace }}
