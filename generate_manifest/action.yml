@@ -34,7 +34,7 @@ runs:
               remote: zephyrproject-rtos
               revision: ${{ inputs.zephyr_revision }}
               import: true
-            - name: zephyr_ams-as621x
+            - name: ${{ github.repository }}
               remote: catie-6tron
               revision: ${{ inputs.repository_revision }}
         EOF
