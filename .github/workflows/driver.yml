@@ -4,8 +4,9 @@ on:
   workflow_call:
     inputs:
       application:
-        required: true
+        required: false
         type: string
+        default: "sample"
       board:
         required: false
         type: string
@@ -28,13 +29,10 @@ jobs:
   build:
     runs-on: self-hosted
     container: ${{ inputs.container }}
-    env: 
+    env:
       CMAKE_PREFIX_PATH: /opt/toolchains
     steps:
       - uses: catie-aq/zephyr_workflows/generate_manifest@7-create-cicd-for-zephyr-driver
         with:
           application: ${{ inputs.application }}
           board: ${{ inputs.board }}
-
-    
-    
