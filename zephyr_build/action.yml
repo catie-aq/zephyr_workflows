@@ -1,5 +1,5 @@
 name: 'Zephyr Build'
-description: 'Builds the Zephyr project'
+description: 'Build the Zephyr project'
 inputs:
   application:
     required: true
