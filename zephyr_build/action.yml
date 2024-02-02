@@ -9,6 +9,7 @@ inputs:
     type: string
   personal_access_token:
     required: true
+
 runs:
   using: "composite"
   steps:
@@ -28,4 +29,6 @@ runs:
         west update
     - name: Build Zephyr Application
       shell: bash
-      run: west build ${${ inputs.board } ? '-b ' + inputs.board : ''} workdir/${{ inputs.application }} -p
+      if: ${{ !inputs.board }}
+      run: west build workdir/${{ inputs.application }} -p
+
