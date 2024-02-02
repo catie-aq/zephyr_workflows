@@ -9,7 +9,6 @@ inputs:
     type: string
   personal_access_token:
     required: true
-
 runs:
   using: "composite"
   steps:
@@ -21,20 +20,12 @@ runs:
     - uses: actions/checkout@v4
       with:
         path: workdir
-    - name: Init Zephyr Application
+    - name: Init and Update Zephyr Application
       shell: bash
       run: |
         rm -rf .west
         west init -l workdir
-    - name: Update Zephyr Application
-      shell: bash
-      run: west update
+        west update
     - name: Build Zephyr Application
       shell: bash
-      if: ${{ inputs.board }}
-      run: west build -b ${{ inputs.board }} workdir/${{ inputs.application }} -p
-    - name: Build Zephyr Application
-      shell: bash
-      if: ${{ !inputs.board }}
-      run: west build workdir/${{ inputs.application }} -p
-
+      run: west build ${${ inputs.board } ? '-b ' + inputs.board : ''} workdir/${{ inputs.application }} -p
