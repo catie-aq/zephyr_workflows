@@ -36,5 +36,5 @@ jobs:
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
     steps:
-      - uses: catie-aq/zephyr_workflows@main
+      - uses: catie-aq/zephyr_workflows@5-Add-driver-ci-cd-pipeline
 
