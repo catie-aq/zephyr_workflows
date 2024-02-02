@@ -10,8 +10,7 @@ le cadre d'Actions Github.
 Ce workflow applique les étapes suivantes :
 
 - Vérification de pre-commit si le fichier `.pre-commit-config.yaml` est présent dans le dépôt
-- Test de compilation de l'application en utilisant [Zephyr Build](#zephyr-build)
-
+- Test de compilation de l'application en utilisant l'action Zephyr Build
 Le workflow possède les paramètres suivants :
 
 - `container` : Image Docker à utiliser pour l'exécution des commandes. Par défaut : `zephyrprojectrtos/ci`
