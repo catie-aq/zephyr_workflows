@@ -21,7 +21,7 @@ on:
         default: ""
     secrets:
       personal_access_token:
-        required: true
+        required: false
 
 jobs:
   pre-commit:
@@ -33,6 +33,4 @@ jobs:
       CMAKE_PREFIX_PATH: /opt/toolchains
     steps:
       - uses: catie-aq/zephyr_workflows/generate_manifest@7-create-cicd-for-zephyr-driver
-        with:
-          application: ${{ inputs.application }}
-          board: ${{ inputs.board }}
+          
