@@ -14,15 +14,15 @@ runs:
   steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    - name: Create 6tron-project/west.yml
+    - name: Create workdir/west.yml
       shell: bash
       run: |
-        mkdir -p 6tron-project
-        touch 6tron-project/west.yml
+        mkdir -p workdir
+        touch workdir/west.yml
     - name: Generate YAML file
       shell: bash
       run: |
-        cat << EOF > 6tron-project/west.yml
+        cat << EOF > workdir/west.yml
         manifest:
           remotes:
             - name: zephyrproject-rtos
@@ -38,7 +38,3 @@ runs:
               remote: catie-6tron
               revision: ${{ inputs.repository_revision }}
         EOF
-    - name: Debug
-      shell: bash
-      run: |
-        cat 6tron-project/west.yml
