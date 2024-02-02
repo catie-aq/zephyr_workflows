@@ -23,12 +23,13 @@ runs:
   using: "composite"
   steps:
     - name: Extra command
+      shell: bash
       if: ${{ inputs.extra_cmd }}
       run: ${{ inputs.extra_cmd }}
     - name: Setup permission
       run: |
         git config --global credential.helper store
-        echo "https://$GITHUB_ACTOR:${{ secrets.personal_access_token }}@github.com" >~/.git-credentials
+        echo "https://$GITHUB_ACTOR:${{ inputs.personal_access_token }}@github.com" >~/.git-credentials
     - uses: actions/checkout@v4
       with:
         path: workdir
