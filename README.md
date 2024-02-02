@@ -25,8 +25,8 @@ Le workflow possède les paramètres suivants :
 
 Cette action permet de compiler une application Zephyr. Elle prend en charge les paramètres suivants :
 
-- `board` : Cible à utiliser pour la compilation. **Obligatoire**.
-- `application` : Nom de l'application à compiler. **Obligatoire**.
+- `board` : Cible à utiliser pour la compilation.
+- `application` :  Chemin de l'application à compiler. **Obligatoire**.
 - `personal_access_token` : Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés. **Obligatoire**.
 
 ## Utilisation
