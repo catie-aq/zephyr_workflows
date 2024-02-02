@@ -14,6 +14,11 @@ runs:
   steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+    - name: Create 6tron-project/west.yml
+      shell: bash
+      run: |
+        mkdir -p 6tron-project
+        touch 6tron-project/west.yml
     - name: Generate YAML file
       shell: bash
       run: |
