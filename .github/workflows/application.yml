@@ -41,10 +41,10 @@ jobs:
         run: ${{ inputs.extra_cmd }}
       - uses: actions/checkout@v4
         with:
-          path: workdir
+          path: workdir/${}
       - uses: catie-aq/zephyr_workflows/zephyr_build@main
         with:
-          application: ${{ inputs.application }}
+          application: workdir/${{ inputs.application }}
           board: ${{ inputs.board }}
           personal_access_token: ${{ secrets.personal_access_token }}
       - name: Clean up
