@@ -58,13 +58,13 @@ jobs:
           repo: zephyr
           excludes: prerelease, draft
       
-      - uses: catie-aq/zephyr_workflows/generate_manifest@7-create-cicd-for-zephyr-driver
+      - uses: catie-aq/zephyr_workflows/generate_manifest@main
         with:
           repo_board: ${{ inputs.repo_board }}
           zephyr_revision: ${{ steps.get-latest-zephyr.outputs.release || inputs.zephyr_revision }}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
 
-      - uses: catie-aq/zephyr_workflows/zephyr_build@7-create-cicd-for-zephyr-driver
+      - uses: catie-aq/zephyr_workflows/zephyr_build@main
         with:
           application: ${{ github.event.repository.name }}/${{ inputs.application }}
           board: ${{ inputs.board }}
