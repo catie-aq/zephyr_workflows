@@ -76,5 +76,4 @@ jobs:
           rm -rf workdir
           rm -rf .west
           rm -rf ${{ github.workspace }}
-  
       
