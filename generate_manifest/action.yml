@@ -37,6 +37,9 @@ runs:
               remote: zephyrproject-rtos
               revision: ${{ inputs.zephyr_revision }}
               import: true
+            - name: zephyr_6tron-connector
+              remote: catie-6tron
+              revision: main
             - name: ${{ github.event.repository.name }}
               remote: catie-6tron
               revision: ${{ inputs.repository_revision }}
