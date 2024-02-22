@@ -36,7 +36,8 @@ jobs:
   pre-commit:
     uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
   build:
-    runs-on: self-hosted
+    runs-on:
+      group: default
     container: ${{ inputs.container }}
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
