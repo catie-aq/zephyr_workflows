@@ -42,7 +42,7 @@ jobs:
         run: ${{ inputs.extra_cmd }}
       - uses: actions/checkout@v4
         with:
-          path: workdir/${}
+          path: workdir
       - uses: catie-aq/zephyr_workflows/zephyr_build@main
         with:
           application: workdir/${{ inputs.application }}
