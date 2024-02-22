@@ -49,15 +49,6 @@ jobs:
       - name: Get branch names
         id: branch-names
         uses: tj-actions/branch-names@v8
-        
-      - name: Get latest Zephyr
-        if: ${{ inputs.zephyr_revision == 'latest' }}
-        id: get-latest-zephyr
-        uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          owner: zephyrproject-rtos
-          repo: zephyr
-          excludes: prerelease, draft
 
       - name: Get 6TRON revision
         id: get-6tron-revision
@@ -67,11 +58,18 @@ jobs:
           repo: zephyr_6tron-manifest
           excludes: prerelease, draft
           token: ${{ secrets.personal_access_token }}
-      
+
+      - name: Get version without suffix
+        id: get-version
+        run: |
+          VERSION=${{ steps.get-6tron-revision.outputs.release }}
+          VERSION_WITHOUT_SUFFIX=$(echo $VERSION | cut -d'+' -f1)
+          echo "::set-output name=version::$VERSION_WITHOUT_SUFFIX"
+
       - uses: catie-aq/zephyr_workflows/generate_manifest@15-support-6tron-manifest
         with:
           repo_board: ${{ inputs.repo_board }}
-          zephyr_revision: ${{ steps.get-latest-zephyr.outputs.release || inputs.zephyr_revision }}
+          zephyr_revision: echo ${{ steps.get-version.outputs.version }}
           sixtron_revision: ${{ steps.get-6tron-revision.outputs.release }}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
 
@@ -87,4 +85,3 @@ jobs:
           rm -rf workdir
           rm -rf .west
           rm -rf ${{ github.workspace }}
-      
