@@ -24,6 +24,7 @@ runs:
 
     - name: Replace underscores with hyphens
       id: replace-characters
+      shell: bash
       run: |
         REPO_BOARD=${{ inputs.repo_board }}
         REPO_BOARD_WITH_HYPHENS=$(echo $REPO_BOARD | tr '_' '-')
