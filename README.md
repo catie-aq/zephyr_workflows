@@ -50,15 +50,14 @@ Ce workflow applique les étapes suivantes :
 - Génération du fichier `west.yml` pour le projet Zephyr en utilisant l'action Generate Zephyr Manifest
 - Test de compilation du driver en utilisant l'action Zephyr Build
 
-| Input                  | Description                                                                 | Obligatoire | Default                  |
-|------------------------|-----------------------------------------------------------------------------|:-----------:|--------------------------|
-| `application`          | Chemin de l'application à compiler.                                         | Non      | `"samples"`              |
-| `board`                | Cible à utiliser pour la compilation.                                       | Non      | `"zest_core_stm32l4a6rg"`|
-| `repo_board`           | Le nom du tableau du dépôt.                                                 | Non      | `"zephyr_zest-core-stm32l4a6rg"`|
-| `zephyr_revision`      | La révision (comme un tag ou un nom de branche) du projet Zephyr.           | Non      | `"latest"`               |
-| `container`            | Image Docker à utiliser pour l'exécution des commandes.                     | Non      | `"zephyrprojectrtos/ci"`|
-| `extra_cmd`            | Commandes supplémentaires à exécuter avant la compilation.                  | Non      | ``                      |
-| `personal_access_token`| Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés.     | Oui       |                          |
+| Input                   | Description                                                             | Obligatoire | Default                          |
+| ----------------------- | ----------------------------------------------------------------------- | :---------: | -------------------------------- |
+| `application`           | Chemin de l'application à compiler.                                     |     Non     | `"samples"`                      |
+| `board`                 | Cible à utiliser pour la compilation.                                   |     Non     | `"zest_core_stm32l4a6rg"`        |
+| `repo_board`            | Le nom du tableau du dépôt.                                             |     Non     | `"zephyr_zest-core-stm32l4a6rg"` |
+| `container`             | Image Docker à utiliser pour l'exécution des commandes.                 |     Non     | `"zephyrprojectrtos/ci"`         |
+| `extra_cmd`             | Commandes supplémentaires à exécuter avant la compilation.              |     Non     | ``                               |
+| `personal_access_token` | Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés. |     Oui     |                                  |
 
 ```yaml
 name: "Zephyr Driver CI/CD"
@@ -90,12 +89,12 @@ Cette action permet de compiler une application Zephyr. Elle prend en charge les
 
 Cette action génère un fichier `west.yml` pour le projet Zephyr.
 
-| Input                 | Description                                                       | Obligatoire | Default  |
-| --------------------- | ----------------------------------------------------------------- | ----------- | -------- |
-| `zephyr_revision`     | La révision (comme un tag ou un nom de branche) du projet Zephyr. | Oui         |          |
-| `repository_revision` | La révision du dépôt.                                             | Oui         |          |
-| `repo_board`          | Le nom du tableau du dépôt.                                       | Oui         |          |
-| `board_revision`      | La révision de la board nécessaire.                               | Non         | `master` |
+| Input                 | Description                                                         | Obligatoire | Default |
+| --------------------- | ------------------------------------------------------------------- | ----------- | ------- |
+| `zephyr_revision`     | La révision (comme un tag ou un nom de branche) du projet Zephyr.   | Oui         |         |
+| `6tron_revision`      | La révision (comme un tag ou un nom de branche) du manifest Zephyr. | Oui         |         |
+| `repository_revision` | La révision du dépôt.                                               | Oui         |         |
+| `repo_board`          | Le nom du tableau du dépôt.                                         | Oui         |         |
 
 ## Licence
 
