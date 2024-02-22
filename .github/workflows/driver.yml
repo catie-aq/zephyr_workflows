@@ -38,11 +38,11 @@ jobs:
         if: ${{ inputs.extra_cmd }}
         run: ${{ inputs.extra_cmd }}
 
-      - name: Get branch names
+      - name: Get current branch name
         id: branch-names
         uses: tj-actions/branch-names@v8
 
-      - name: Get 6TRON revision
+      - name: Get 6TRON Manifest last tag
         id: get-6tron-revision
         uses: pozetroninc/github-action-get-latest-release@master
         with:
@@ -51,17 +51,9 @@ jobs:
           excludes: prerelease, draft
           token: ${{ secrets.personal_access_token }}
 
-      - name: Get version without suffix
-        id: get-version
-        run: |
-          VERSION=${{ steps.get-6tron-revision.outputs.release }}
-          VERSION_WITHOUT_SUFFIX=$(echo $VERSION | cut -d'+' -f1)
-          echo "version=$VERSION_WITHOUT_SUFFIX" >> $GITHUB_OUTPUT
-
       - uses: catie-aq/zephyr_workflows/generate_manifest@15-support-6tron-manifest
         with:
           repo_board: ${{ inputs.board }}
-          zephyr_revision: ${{ steps.get-version.outputs.version }}
           sixtron_revision: ${{ steps.get-6tron-revision.outputs.release }}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
 
@@ -71,6 +63,7 @@ jobs:
           board: ${{ inputs.board }}
           personal_access_token: ${{ secrets.personal_access_token }}
           extra_cmd: "cd workdir"
+
       - name: Clean up
         if: always()
         run: |

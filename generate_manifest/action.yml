@@ -1,9 +1,6 @@
 name: 'Generate Zephyr Manifest'
 description: 'Generates the west.yml file'
 inputs:
-  zephyr_revision:
-    required: true
-    type: string
   sixtron_revision:
     required: true
     type: string
@@ -21,6 +18,14 @@ runs:
       run: |
         mkdir -p workdir
         touch workdir/west.yml
+
+    - name: Get version without suffix
+      shell: bash
+      id: get-version
+      run: |
+        VERSION=${{ inputs.sixtron_revision }}
+        VERSION_WITHOUT_SUFFIX=$(echo $VERSION | cut -d'+' -f1)
+        echo "version=$VERSION_WITHOUT_SUFFIX" >> $GITHUB_OUTPUT
 
     - name: Replace underscores with hyphens
       id: replace-characters
@@ -43,7 +48,7 @@ runs:
           projects:
             - name: zephyr
               remote: zephyrproject-rtos
-              revision: ${{ inputs.zephyr_revision }}
+              revision: ${{ steps.get-version.outputs.version }}
               import: true
             - name: ${{ github.event.repository.name }}
               remote: catie-6tron

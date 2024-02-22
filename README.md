@@ -90,7 +90,6 @@ Cette action génère un fichier `west.yml` pour le projet Zephyr.
 
 | Input                 | Description                                                         | Obligatoire | Default |
 | --------------------- | ------------------------------------------------------------------- | ----------- | ------- |
-| `zephyr_revision`     | La révision (comme un tag ou un nom de branche) du projet Zephyr.   | Oui         |         |
 | `6tron_revision`      | La révision (comme un tag ou un nom de branche) du manifest Zephyr. | Oui         |         |
 | `repository_revision` | La révision du dépôt.                                               | Oui         |         |
 | `repo_board`          | Le nom du tableau du dépôt.                                         | Oui         |         |
