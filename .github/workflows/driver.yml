@@ -11,10 +11,6 @@ on:
         required: false
         type: string
         default: "zest_core_stm32l4a6rg"
-      repo_board:
-        required: false
-        type: string
-        default: "zest-core-stm32l4a6rg"
       container:
         required: false
         type: string
@@ -64,7 +60,7 @@ jobs:
 
       - uses: catie-aq/zephyr_workflows/generate_manifest@15-support-6tron-manifest
         with:
-          repo_board: ${{ inputs.repo_board }}
+          repo_board: ${{ inputs.board }}
           zephyr_revision: ${{ steps.get-version.outputs.version }}
           sixtron_revision: ${{ steps.get-6tron-revision.outputs.release }}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}

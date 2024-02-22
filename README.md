@@ -54,7 +54,6 @@ Ce workflow applique les étapes suivantes :
 | ----------------------- | ----------------------------------------------------------------------- | :---------: | -------------------------------- |
 | `application`           | Chemin de l'application à compiler.                                     |     Non     | `"samples"`                      |
 | `board`                 | Cible à utiliser pour la compilation.                                   |     Non     | `"zest_core_stm32l4a6rg"`        |
-| `repo_board`            | Le nom du tableau du dépôt.                                             |     Non     | `"zephyr_zest-core-stm32l4a6rg"` |
 | `container`             | Image Docker à utiliser pour l'exécution des commandes.                 |     Non     | `"zephyrprojectrtos/ci"`         |
 | `extra_cmd`             | Commandes supplémentaires à exécuter avant la compilation.              |     Non     | ``                               |
 | `personal_access_token` | Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés. |     Oui     |                                  |

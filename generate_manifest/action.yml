@@ -21,6 +21,14 @@ runs:
       run: |
         mkdir -p workdir
         touch workdir/west.yml
+
+    - name: Replace underscores with hyphens
+      id: replace-characters
+      run: |
+        REPO_BOARD=${{ inputs.repo_board }}
+        REPO_BOARD_WITH_HYPHENS=$(echo $REPO_BOARD | tr '_' '-')
+        echo "repo_board: $REPO_BOARD_WITH_HYPHENS"
+    
     - name: Generate YAML file
       shell: bash
       run: |
@@ -47,5 +55,5 @@ runs:
               import: 
                 name-allowlist:
                   - 6tron-connector
-                  - ${{ inputs.repo_board }}
+                  - ${{ steps.replace-characters.outputs.repo_board }}
         EOF
