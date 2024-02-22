@@ -29,7 +29,8 @@ jobs:
   pre-commit:
     uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
   build:
-    runs-on: self-hosted
+    runs-on:
+      group: default
     container:
       image: ${{ inputs.container }}
       options: --user root --privileged
