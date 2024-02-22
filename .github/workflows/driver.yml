@@ -64,7 +64,7 @@ jobs:
         run: |
           VERSION=${{ steps.get-6tron-revision.outputs.release }}
           VERSION_WITHOUT_SUFFIX=$(echo $VERSION | cut -d'+' -f1)
-          echo "::set-output name=version::$VERSION_WITHOUT_SUFFIX"
+          echo "version=$VERSION_WITHOUT_SUFFIX" >> $GITHUB_OUTPUT
 
       - uses: catie-aq/zephyr_workflows/generate_manifest@15-support-6tron-manifest
         with:
