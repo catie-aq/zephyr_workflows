@@ -28,7 +28,7 @@ runs:
       run: |
         REPO_BOARD=${{ inputs.repo_board }}
         REPO_BOARD_WITH_HYPHENS=$(echo $REPO_BOARD | tr '_' '-')
-        echo "repo_board: $REPO_BOARD_WITH_HYPHENS"
+        echo "repo_board: $REPO_BOARD_WITH_HYPHENS" >> $GITHUB_OUTPUT
     
     - name: Generate YAML file
       shell: bash
