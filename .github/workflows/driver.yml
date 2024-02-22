@@ -64,7 +64,7 @@ jobs:
         uses: pozetroninc/github-action-get-latest-release@master
         with:
           owner: catie-aq
-          repo: 6tron-manifest
+          repo: zephyr_6tron-manifest
           excludes: prerelease, draft
           token: ${{ secrets.personal_access_token }}
       
