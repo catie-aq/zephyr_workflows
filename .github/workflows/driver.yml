@@ -69,7 +69,7 @@ jobs:
       - uses: catie-aq/zephyr_workflows/generate_manifest@15-support-6tron-manifest
         with:
           repo_board: ${{ inputs.repo_board }}
-          zephyr_revision: echo ${{ steps.get-version.outputs.version }}
+          zephyr_revision: ${{ steps.get-version.outputs.version }}
           sixtron_revision: ${{ steps.get-6tron-revision.outputs.release }}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
 
