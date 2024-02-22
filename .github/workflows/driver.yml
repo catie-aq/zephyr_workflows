@@ -72,6 +72,7 @@ jobs:
         with:
           repo_board: ${{ inputs.repo_board }}
           zephyr_revision: ${{ steps.get-latest-zephyr.outputs.release || inputs.zephyr_revision }}
+          sixtron_revision: ${{ steps.get-6tron-revision.outputs.release }}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
 
       - uses: catie-aq/zephyr_workflows/zephyr_build@main
