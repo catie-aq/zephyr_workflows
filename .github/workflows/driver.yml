@@ -14,7 +14,7 @@ on:
       repo_board:
         required: false
         type: string
-        default: "zephyr_zest-core-stm32l4a6rg"
+        default: "zest-core-stm32l4a6rg"
       zephyr_revision:
         required: false
         type: string
@@ -58,8 +58,17 @@ jobs:
           owner: zephyrproject-rtos
           repo: zephyr
           excludes: prerelease, draft
+
+      - name: Get 6TRON revision
+        id: get-6tron-revision
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          owner: catie-aq
+          repo: 6tron-manifest
+          excludes: prerelease, draft
+          token: ${{ secrets.personal_access_token }}
       
-      - uses: catie-aq/zephyr_workflows/generate_manifest@main
+      - uses: catie-aq/zephyr_workflows/generate_manifest@15-support-6tron-manifest
         with:
           repo_board: ${{ inputs.repo_board }}
           zephyr_revision: ${{ steps.get-latest-zephyr.outputs.release || inputs.zephyr_revision }}
