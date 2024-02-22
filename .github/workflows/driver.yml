@@ -15,10 +15,6 @@ on:
         required: false
         type: string
         default: "zest-core-stm32l4a6rg"
-      zephyr_revision:
-        required: false
-        type: string
-        default: "latest"
       container:
         required: false
         type: string
