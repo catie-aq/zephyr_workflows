@@ -13,6 +13,7 @@ inputs:
 outputs:
   update:
     description: "Module SHA update status"
+    value: ${{ steps.update.outputs.update }}
 
 runs:
   using: "composite"
