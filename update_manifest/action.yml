@@ -1,19 +1,21 @@
 # action.yaml
-name: 'Update Zephyr Manifest'
-description: 'Update Zephyr manifest with the latest module SHA'
+name: "Update Zephyr Manifest"
+description: "Update Zephyr manifest with the latest module SHA"
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Install Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'
-    - name: Set GitHub Path
-      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+        python-version: "3.10"
+    - name: Install Poetry
+      run: |
+        cd ${{github.action_path}}
+        pip install poetry
+        poetry install
       shell: bash
-      env:
-        GITHUB_ACTION_PATH: ${{ github.action_path }}
-    - name: Test
-      run : ls -la && pwd
+    - name: Perform Update
+      id: update
+      run: poetry run update
       shell: bash
