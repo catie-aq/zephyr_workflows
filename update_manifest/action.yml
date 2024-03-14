@@ -7,7 +7,7 @@ runs:
   steps:
     - name: Install Poetry
       run: |
-        cd ${{github.action_path}}
+        cd ${GITHUB_ACTION_PATH}
         pip install poetry
         poetry install
       shell: bash
