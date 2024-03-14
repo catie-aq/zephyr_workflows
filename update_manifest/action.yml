@@ -28,8 +28,8 @@ runs:
       id: update
       run: | 
         cd ${GITHUB_ACTION_PATH}
-        UPDATE=$(poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }})
-        echo "::set-output name=update::$UPDATE"
+        poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }}
+        echo "::set-output name=update::${GITHUB_ACTION_PATH}/change.md"
       shell: bash
     - name: Clean up
       if: always()
