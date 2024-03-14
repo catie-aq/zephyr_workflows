@@ -39,11 +39,9 @@ class UpdateManifest:
             response.raise_for_status()
             remote_revision = response.json()["sha"]
 
-            if local_revision == remote_revision:
-                print(f"The local revision of {project} is the latest.")
-            else:
+            if local_revision != remote_revision:
                 print(
-                    f"The local revision of {project} is not the latest. The latest revision is {remote_revision}."
+                    f"Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) from {local_revision} to {remote_revision}."
                 )
                 self.to_check[project]["revision"] = remote_revision
 
@@ -64,7 +62,6 @@ class UpdateManifest:
 
 
     def update(self):
-        print(f"Updating manifest {self.manifest}")
         self.parse_manifest()
         self.get_remote_revisions()
         self.update_manifest()
