@@ -1,0 +1,21 @@
+# action.yaml
+name: 'Update Zephyr Manifest'
+description: 'Update Zephyr manifest with the latest module SHA'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install Poetry
+      run: pip install poetry
+      shell: bash
+    - name: Install Dependencies
+      run: poetry install
+      shell: bash
+    - name: Perform Update
+      id: get-square
+      run: poetry run update
+      shell: bash
