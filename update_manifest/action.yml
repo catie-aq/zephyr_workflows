@@ -31,6 +31,11 @@ runs:
         poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }}
         echo "::set-output name=update::${GITHUB_ACTION_PATH}/folder/change.md"
       shell: bash
+    - name: Upload Change in Cache
+      uses: actions/upload-artifact@v2
+      with:
+        name: change
+        path: ${{ steps.update.outputs.update }}
     - name: Clean up
       if: always()
       run: |
