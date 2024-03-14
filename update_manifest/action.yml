@@ -29,7 +29,7 @@ runs:
       run: | 
         cd ${GITHUB_ACTION_PATH}
         poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }}
-        echo "::set-output name=update::${GITHUB_ACTION_PATH}/folder/change.md"
+        echo "::set-output name=update::${GITHUB_ACTION_PATH}/change.md"
       shell: bash
     - name: Upload Change in Cache
       uses: actions/upload-artifact@v2
