@@ -25,3 +25,8 @@ runs:
         cd ${GITHUB_ACTION_PATH}
         poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }}
       shell: bash
+    - name: Clean up
+      if: always()
+      run: |
+        rm -rf ${GITHUB_ACTION_PATH}
+      shell: bash
