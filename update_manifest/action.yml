@@ -8,15 +8,15 @@ runs:
     - name: Checkout Repository
       uses: actions/checkout@v2
       with:
-        repository: 'catie-aq/zephyr-workflows'
-        path: 'zephyr-workflows'
+        repository: 'catie-aq/zephyr_workflows'
+        path: 'zephyr_workflows'
     - name: Install Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
     - name: Install Poetry
       run: |
-        cd zephyr-workflows/update_manifest
+        cd zephyr_workflows/update_manifest
         pip install poetry
         poetry install
       shell: bash
