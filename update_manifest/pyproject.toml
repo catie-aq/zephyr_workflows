@@ -7,9 +7,12 @@ name = "update_manifest"
 version = "0.0.0"
 description = "Update Zephyr manifest with the latest module SHA"
 authors = ["Sébastien Delpeuch <s.delpeuch@catie.fr>"]
+packages = [
+    { include = "update_manifest" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 
 [tool.poetry.scripts]
-update = "update_manifest:update.main"
+update = "update_manifest.update:main"
