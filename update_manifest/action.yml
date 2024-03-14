@@ -34,5 +34,5 @@ runs:
     - name: Clean up
       if: always()
       run: |
-        rm -rf ${GITHUB_ACTION_PATH}
+        rm -rf ${GITHUB_ACTION_PATH}/!(change.md)
       shell: bash
