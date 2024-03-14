@@ -29,6 +29,7 @@ runs:
         cd ${GITHUB_ACTION_PATH}
         UPDATE=$(poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }})
         echo "::set-output name=update::$UPDATE"
+        echo $UPDATE
       shell: bash
     - name: Clean up
       if: always()
