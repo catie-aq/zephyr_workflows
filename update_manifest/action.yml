@@ -10,6 +10,10 @@ inputs:
     description: "Personal Access Token for GitHub"
     required: true
 
+outputs:
+  update:
+    description: "Module SHA update status"
+
 runs:
   using: "composite"
   steps:
@@ -23,7 +27,8 @@ runs:
       id: update
       run: | 
         cd ${GITHUB_ACTION_PATH}
-        poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }}
+        UPDATE=$(poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }})
+        echo "::set-output name=update::$UPDATE"
       shell: bash
     - name: Clean up
       if: always()
