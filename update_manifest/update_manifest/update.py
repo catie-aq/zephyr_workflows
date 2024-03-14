@@ -69,7 +69,7 @@ class UpdateManifest:
             if local_revision != remote_revision:
                 print(
                     f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
-                    f"from {local_revision} to {remote_revision}. \n"
+                    f"from {local_revision} to {remote_revision}."
                 )
                 self.to_check[project]["revision"] = remote_revision
 
