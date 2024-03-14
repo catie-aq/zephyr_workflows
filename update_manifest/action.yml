@@ -13,5 +13,7 @@ runs:
       shell: bash
     - name: Perform Update
       id: update
-      run: poetry run update
+      run: | 
+        cd ${GITHUB_ACTION_PATH}
+        poetry run update
       shell: bash
