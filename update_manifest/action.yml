@@ -15,5 +15,5 @@ runs:
       id: update
       run: | 
         cd ${GITHUB_ACTION_PATH}
-        poetry run update
+        update
       shell: bash
