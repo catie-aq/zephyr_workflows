@@ -2,6 +2,14 @@
 name: "Update Zephyr Manifest"
 description: "Update Zephyr manifest with the latest module SHA"
 
+inputs:
+  manifest:
+    description: "Path to the manifest file"
+    required: true
+  personal_access_token:
+    description: "Personal Access Token for GitHub"
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -15,5 +23,5 @@ runs:
       id: update
       run: | 
         cd ${GITHUB_ACTION_PATH}
-        poetry run update
+        poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }}
       shell: bash
