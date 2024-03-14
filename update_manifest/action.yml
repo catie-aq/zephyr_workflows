@@ -5,10 +5,6 @@ description: "Update Zephyr manifest with the latest module SHA"
 runs:
   using: "composite"
   steps:
-    - name: Install Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.9"
     - name: Install Poetry
       run: |
         cd ${{github.action_path}}
