@@ -14,6 +14,11 @@ inputs:
     required: false
     type: string
     description: "Board to run the test on"
+  path:
+    required: false
+    type: string
+    description: "Path to the test directory"
+    default: "samples"
 
 runs:
   using: "composite"
@@ -21,8 +26,8 @@ runs:
     - name: Run test with twister
       if: ${{ inputs.board }}
       shell: bash
-      run: west twister -t ${{ inputs.test }} -b ${{ inputs.board }} ${{ inputs.options }}
+      run: west twister -t ${{ inputs.test }} -b ${{ inputs.board }} -T ${{ inputs.path }} ${{ inputs.options }}
     - name: Run test with twister
       if: ${{ !inputs.board }}
       shell: bash
-      run: west twister -t ${{ inputs.test }} ${{ inputs.options }}
+      run: west twister -t ${{ inputs.test }} -T ${{ inputs.path }} ${{ inputs.options }}
