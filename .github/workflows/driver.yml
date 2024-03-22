@@ -68,7 +68,8 @@ jobs:
       - uses: catie-aq/zephyr_workflows/zephyr_twister@18-add-twister-action
         with:
           test: "introduction"
-          path: ${{ inputs.path }}
+          path: ${{ github.event.repository.name }}/${{ inputs.application }}/${{ inputs.path }}
+          extra_cmd: "cd workdir"
 
       - name: Clean up
         if: always()
