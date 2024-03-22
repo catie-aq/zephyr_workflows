@@ -41,4 +41,4 @@ runs:
         if [[ -n "${{ inputs.board }}" ]]; then
           board = -b ${{ inputs.board }}
         fi
-        west twister ${{ test }} ${{ board }} -T ${{ inputs.path }} ${{ inputs.options }}
+        west twister $test $board -T ${{ inputs.path }} ${{ inputs.options }}
