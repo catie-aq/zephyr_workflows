@@ -2,7 +2,7 @@ name: 'Zephyr Twister'
 description: 'Run tests with twister'
 inputs:
   test:
-    required: true
+    required: false
     type: string
     description: "Test to run"
   options:
