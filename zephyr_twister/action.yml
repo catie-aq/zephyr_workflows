@@ -5,10 +5,24 @@ inputs:
     required: true
     type: string
     description: "Test to run"
+  options:
+    required: false
+    type: string
+    description: "Extra options to pass to twister"
+    default: ""
+  board:
+    required: false
+    type: string
+    description: "Board to run the test on"
 
 runs:
   using: "composite"
   steps:
     - name: Run test with twister
+      if: ${{ inputs.board }}
       shell: bash
-      run: west twister -t ${{ inputs.test }} --force-color --inline-logs -v -N -M --retry-failed 3 --timeout-multiplier 2 
+      run: west twister -t ${{ inputs.test }} -b ${{ inputs.board }} ${{ inputs.options }}
+    - name: Run test with twister
+      if: ${{ !inputs.board }}
+      shell: bash
+      run: west twister -t ${{ inputs.test }} ${{ inputs.options }}
