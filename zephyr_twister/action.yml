@@ -1,8 +1,6 @@
 name: 'Zephyr Twister'
 description: 'Run tests with twister'
 inputs:
-  personal_access_token:
-    required: true
   test:
     required: true
     type: string
