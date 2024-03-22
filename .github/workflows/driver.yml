@@ -3,10 +3,6 @@ name: Build & Test Zephyr Driver
 on:
   workflow_call:
     inputs:
-      application:
-        required: false
-        type: string
-        default: "samples"
       board:
         required: false
         type: string
@@ -71,7 +67,7 @@ jobs:
       - uses: catie-aq/zephyr_workflows/zephyr_twister@18-add-twister-action
         with:
           test: "introduction"
-          path: ${{ github.event.repository.name }}/${{ inputs.application }}/${{ inputs.path }}
+          path: ${{ github.event.repository.name }}/${{ inputs.path }}
           extra_cmd: "cd workdir"
 
       - name: Clean up
