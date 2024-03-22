@@ -36,9 +36,9 @@ runs:
       shell: bash
       run: |
         if [[ -n "${{ inputs.path }}" ]]; then
-          test = -t  ${{ inputs.test }}
+          test="-t  ${{ inputs.test }}"
         fi
         if [[ -n "${{ inputs.board }}" ]]; then
-          board = -b ${{ inputs.board }}
+          board="-b ${{ inputs.board }}"
         fi
         west twister $test $board -T ${{ inputs.path }} ${{ inputs.options }}
