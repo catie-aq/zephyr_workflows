@@ -20,6 +20,10 @@ on:
         type: string
         description: "Extra command to run before build"
         default: ""
+      path:
+        required: false
+        type: string
+        default: "samples"
     secrets:
       personal_access_token:
         required: true
@@ -64,6 +68,7 @@ jobs:
       - uses: catie-aq/zephyr_workflows/zephyr_twister@18-add-twister-action
         with:
           test: "introduction"
+          path: ${{ inputs.path }}
 
       - name: Clean up
         if: always()
