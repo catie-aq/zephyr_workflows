@@ -65,6 +65,9 @@ jobs:
         with:
           personal_access_token: ${{ secrets.personal_access_token }}
 
+      - name: ls
+        run: ls workdir
+
       - uses: catie-aq/zephyr_workflows/zephyr_twister@18-add-twister-action
         with:
           test: "introduction"
