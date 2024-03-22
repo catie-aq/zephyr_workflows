@@ -1,0 +1,16 @@
+name: 'Zephyr Twister'
+description: 'Run tests with twister'
+inputs:
+  personal_access_token:
+    required: true
+  test:
+    required: true
+    type: string
+    description: "Test to run"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run test with twister
+      shell: bash
+      run: west twister -t ${{ inputs.test }} --force-color --inline-logs -v -N -M --retry-failed 3 --timeout-multiplier 2 
