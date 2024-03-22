@@ -19,10 +19,18 @@ inputs:
     type: string
     description: "Path to the test directory"
     default: "samples"
+  extra_cmd:
+    required: false
+    type: string
+    description: "Extra command to run before build"
+    default: "echo ''"
 
 runs:
   using: "composite"
   steps:
+    - name: Run Extra Command
+      shell: bash
+      run: ${{ inputs.extra_cmd }}
     - name: Run test with twister
       if: ${{ inputs.board }}
       shell: bash
