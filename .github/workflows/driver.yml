@@ -57,12 +57,13 @@ jobs:
           sixtron_revision: ${{ steps.get-6tron-revision.outputs.release }}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
 
-      - uses: catie-aq/zephyr_workflows/zephyr_build@main
+      - uses: catie-aq/zephyr_workflows/zephyr_init@18-add-twister-action
         with:
-          application: ${{ github.event.repository.name }}/${{ inputs.application }}
-          board: ${{ inputs.board }}
           personal_access_token: ${{ secrets.personal_access_token }}
-          extra_cmd: "cd workdir"
+
+      - uses: catie-aq/zephyr_workflows/zephyr_twister@18-add-twister-action
+        with:
+          test: "introduction"
 
       - name: Clean up
         if: always()
