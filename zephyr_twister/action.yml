@@ -31,11 +31,14 @@ runs:
     - name: Run Extra Command
       shell: bash
       run: ${{ inputs.extra_cmd }}
+
     - name: Run test with twister
-      if: ${{ inputs.board }}
       shell: bash
-      run: west twister -t ${{ inputs.test }} -b ${{ inputs.board }} -T ${{ inputs.path }} ${{ inputs.options }}
-    - name: Run test with twister
-      if: ${{ !inputs.board }}
-      shell: bash
-      run: west twister -t ${{ inputs.test }} -T ${{ inputs.path }} ${{ inputs.options }}
+      run: |
+        if [[ -n "${{ inputs.path }}" ]]; then
+          test = -t  ${{ inputs.test }}
+        fi
+        if [[ -n "${{ inputs.board }}" ]]; then
+          board = -b ${{ inputs.board }}
+        fi
+        west twister ${{ test }} ${{ board }} -T ${{ inputs.path }} ${{ inputs.options }}
