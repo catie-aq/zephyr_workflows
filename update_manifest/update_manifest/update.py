@@ -46,33 +46,44 @@ class UpdateManifest:
         If a local revision is different from the remote revision, update revision in `to_check`.
         """
         headers = {"Authorization": f"token {self.token}"}
+        to_change = []
+        for project, details in self.to_check.items():
+            repo_path = details["repo-path"]
+            local_revision = details["revision"]
+
+            repo_info_response = requests.get(
+                f"https://api.github.com/repos/catie-aq/{repo_path}",
+                headers=headers,
+                timeout=5,
+            )
+            repo_info_response.raise_for_status()
+            default_branch = repo_info_response.json()["default_branch"]
+
+            response = requests.get(
+                f"https://api.github.com/repos/catie-aq/{repo_path}/commits/{default_branch}",
+                headers=headers,
+                timeout=5,
+            )
+            response.raise_for_status()
+            remote_revision = response.json()["sha"]
+            if local_revision != remote_revision:
+                to_change.append((repo_path, local_revision, remote_revision))
+                self.to_check[project]["revision"] = remote_revision
+
         with open("change.md", "w", encoding="utf-8") as f:
-            for project, details in self.to_check.items():
-                repo_path = details["repo-path"]
-                local_revision = details["revision"]
-
-                repo_info_response = requests.get(
-                    f"https://api.github.com/repos/catie-aq/{repo_path}",
-                    headers=headers,
-                    timeout=5,
-                )
-                repo_info_response.raise_for_status()
-                default_branch = repo_info_response.json()["default_branch"]
-
-                response = requests.get(
-                    f"https://api.github.com/repos/catie-aq/{repo_path}/commits/{default_branch}",
-                    headers=headers,
-                    timeout=5,
-                )
-                response.raise_for_status()
-                remote_revision = response.json()["sha"]
-
-                if local_revision != remote_revision:
+            with open("change.json", "w", encoding="utf-8") as f_json:
+                f_json.write('{ \n "repo": [\n')
+                for repo_path, local_revision, remote_revision in to_change:
                     f.write(
                         f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
                         f"from {local_revision} to {remote_revision}.\n"
                     )
-                    self.to_check[project]["revision"] = remote_revision
+                    if repo_path == to_change[-1][0]:
+                        f_json.write(f'"{repo_path}"\n')
+                    else:
+                        f_json.write(f'"{repo_path}",\n')
+
+                f_json.write("]}\n")
 
     def update_manifest(self):
         """
