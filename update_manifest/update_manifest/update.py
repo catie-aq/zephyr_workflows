@@ -71,7 +71,7 @@ class UpdateManifest:
                 self.to_check[project]["revision"] = remote_revision
 
         with open("change.md", "w", encoding="utf-8") as f:
-            with open("change.json", "w", encoding="utf-8") as f_json:
+            with open("matrix.json", "w", encoding="utf-8") as f_json:
                 f_json.write('{ \n "repo": [\n')
                 for repo_path, local_revision, remote_revision in to_change:
                     f.write(

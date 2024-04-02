@@ -29,7 +29,12 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: change
-        path: ${{ steps.update.outputs.update }}
+        path: ${GITHUB_ACTION_PATH}/change.md
+    - name: Upload matrix.json in cache
+      uses: actions/upload-artifact@v4
+      with:
+        name: matrix
+        path: ${GITHUB_ACTION_PATH}/matrix.json
     - name: Clean up
       if: always()
       run: |
