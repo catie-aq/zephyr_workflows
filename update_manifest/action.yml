@@ -10,11 +10,6 @@ inputs:
     description: "Personal Access Token for GitHub"
     required: true
 
-outputs:
-  update:
-    description: "Path to changelog"
-    value: ${{ steps.update.outputs.update }}
-
 runs:
   using: "composite"
   steps:
@@ -29,7 +24,6 @@ runs:
       run: | 
         cd ${GITHUB_ACTION_PATH}
         poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }}
-        echo "::set-output name=update::${GITHUB_ACTION_PATH}/change.md"
       shell: bash
     - name: Upload change.md in cache
       uses: actions/upload-artifact@v4
