@@ -24,17 +24,19 @@ runs:
       run: | 
         cd ${GITHUB_ACTION_PATH}
         poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }}
+        echo "::set-output name=change::${GITHUB_ACTION_PATH}/change.md"
+        echo "::set-output name=matrix::${GITHUB_ACTION_PATH}/matrix.json"
       shell: bash
     - name: Upload change.md in cache
       uses: actions/upload-artifact@v4
       with:
         name: change
-        path: ${GITHUB_ACTION_PATH}/change.md
+        path: ${{ steps.update.outputs.change }}
     - name: Upload matrix.json in cache
       uses: actions/upload-artifact@v4
       with:
         name: matrix
-        path: ${GITHUB_ACTION_PATH}/matrix.json
+        path: ${{ steps.update.outputs.matrix }}
     - name: Clean up
       if: always()
       run: |
