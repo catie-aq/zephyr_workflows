@@ -18,7 +18,6 @@ inputs:
     required: false
     type: string
     description: "Path to the test directory"
-    default: "samples"
   extra_cmd:
     required: false
     type: string
