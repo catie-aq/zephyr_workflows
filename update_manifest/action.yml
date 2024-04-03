@@ -27,10 +27,6 @@ runs:
         echo "::set-output name=change::${GITHUB_ACTION_PATH}/change.md"
         echo "::set-output name=matrix::${GITHUB_ACTION_PATH}/matrix.json"
       shell: bash
-    - name: Cat matrix.json
-      run: |
-        cat ${{ steps.update.outputs.matrix }}
-      shell: bash
     - name: Upload change.md in cache
       uses: actions/upload-artifact@v4
       with:
