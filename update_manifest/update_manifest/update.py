@@ -81,10 +81,7 @@ class UpdateManifest:
                         f"from {local_revision} to {remote_revision}.\n"
                     )
                     if "core" not in repo_path:
-                        if repo_path == to_change[-1][0]:
-                            f_json.write(f'"{path}"\n')
-                        else:
-                            f_json.write(f'"{path}",\n')
+                        f_json.write(f'"{path}",\n')
 
                 f_json.write("]}\n")
             with open("matrix_core.json", "w", encoding="utf-8") as f_json:
@@ -95,10 +92,7 @@ class UpdateManifest:
                         f"from {local_revision} to {remote_revision}.\n"
                     )
                     if "core" in repo_path:
-                        if repo_path == to_change[-1][0]:
-                            f_json.write(f'"{path}"\n')
-                        else:
-                            f_json.write(f'"{path}",\n')
+                        f_json.write(f'"{path}",\n')
 
                 f_json.write("]}\n")
 
