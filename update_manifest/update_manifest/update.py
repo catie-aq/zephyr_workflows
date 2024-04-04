@@ -76,22 +76,22 @@ class UpdateManifest:
             with open("matrix.json", "w", encoding="utf-8") as f_json:
                 f_json.write('{ \n "repo": [\n')
                 for repo_path, local_revision, remote_revision, path in to_change:
-                    f.write(
-                        f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
-                        f"from {local_revision} to {remote_revision}.\n"
-                    )
                     if "core" not in repo_path:
+                        f.write(
+                            f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
+                            f"from {local_revision} to {remote_revision}.\n"
+                        )
                         f_json.write(f'"{path}",\n')
 
                 f_json.write("]}\n")
             with open("matrix_core.json", "w", encoding="utf-8") as f_json:
                 f_json.write('{ \n "repo": [\n')
                 for repo_path, local_revision, remote_revision, path in to_change:
-                    f.write(
-                        f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
-                        f"from {local_revision} to {remote_revision}.\n"
-                    )
                     if "core" in repo_path:
+                        f.write(
+                            f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
+                            f"from {local_revision} to {remote_revision}.\n"
+                        )
                         f_json.write(f'"{path}",\n')
 
                 f_json.write("]}\n")
