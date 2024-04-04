@@ -26,6 +26,7 @@ runs:
         poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }}
         echo "::set-output name=change::${GITHUB_ACTION_PATH}/change.md"
         echo "::set-output name=matrix::${GITHUB_ACTION_PATH}/matrix.json"
+        echo "::set-output name=matrix_core::${GITHUB_ACTION_PATH}/matrix_core.json"
         echo "::set-output name=west::${GITHUB_ACTION_PATH}/test_manifest.yml"
       shell: bash
     - name: Upload change.md in cache
@@ -43,6 +44,11 @@ runs:
       with:
         name: west
         path: ${{ steps.update.outputs.west }}
+    - name: Upload matrix_core.json in cache
+      uses: actions/upload-artifact@v4
+      with:
+        name: matrix_core
+        path: ${{ steps.update.outputs.matrix_core }}
     - name: Clean up
       if: always()
       run: |

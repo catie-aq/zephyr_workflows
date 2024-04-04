@@ -80,10 +80,25 @@ class UpdateManifest:
                         f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
                         f"from {local_revision} to {remote_revision}.\n"
                     )
-                    if repo_path == to_change[-1][0]:
-                        f_json.write(f'"{path}"\n')
-                    else:
-                        f_json.write(f'"{path}",\n')
+                    if "core" not in repo_path:
+                        if repo_path == to_change[-1][0]:
+                            f_json.write(f'"{path}"\n')
+                        else:
+                            f_json.write(f'"{path}",\n')
+
+                f_json.write("]}\n")
+            with open("matrix_core.json", "w", encoding="utf-8") as f_json:
+                f_json.write('{ \n "repo": [\n')
+                for repo_path, local_revision, remote_revision, path in to_change:
+                    f.write(
+                        f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
+                        f"from {local_revision} to {remote_revision}.\n"
+                    )
+                    if "core" in repo_path:
+                        if repo_path == to_change[-1][0]:
+                            f_json.write(f'"{path}"\n')
+                        else:
+                            f_json.write(f'"{path}",\n')
 
                 f_json.write("]}\n")
 
