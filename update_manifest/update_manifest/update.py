@@ -48,6 +48,7 @@ class UpdateManifest:
         """
         headers = {"Authorization": f"token {self.token}"}
         to_change = []
+        to_change_core = []
         for project, details in self.to_check.items():
             repo_path = details["repo-path"]
             local_revision = details["revision"]
@@ -69,29 +70,36 @@ class UpdateManifest:
             response.raise_for_status()
             remote_revision = response.json()["sha"]
             if local_revision != remote_revision:
-                to_change.append((repo_path, local_revision, remote_revision, path))
+                if "core" in repo_path:
+                    to_change_core.append((repo_path, local_revision, remote_revision, path))
+                else:
+                    to_change.append((repo_path, local_revision, remote_revision, path))
                 self.to_check[project]["revision"] = remote_revision
 
         with open("change.md", "w", encoding="utf-8") as f:
             with open("matrix.json", "w", encoding="utf-8") as f_json:
                 f_json.write('{ \n "repo": [\n')
                 for repo_path, local_revision, remote_revision, path in to_change:
-                    if "core" not in repo_path:
-                        f.write(
-                            f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
-                            f"from {local_revision} to {remote_revision}.\n"
-                        )
+                    f.write(
+                        f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
+                        f"from {local_revision} to {remote_revision}.\n"
+                    )
+                    if repo_path == to_change[-1][0]:
+                        f_json.write(f'"{path}"\n')
+                    else:
                         f_json.write(f'"{path}",\n')
 
                 f_json.write("]}\n")
             with open("matrix_core.json", "w", encoding="utf-8") as f_json:
                 f_json.write('{ \n "repo": [\n')
-                for repo_path, local_revision, remote_revision, path in to_change:
-                    if "core" in repo_path:
-                        f.write(
-                            f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
-                            f"from {local_revision} to {remote_revision}.\n"
-                        )
+                for repo_path, local_revision, remote_revision, path in to_change_core:
+                    f.write(
+                        f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
+                        f"from {local_revision} to {remote_revision}.\n"
+                    )
+                    if repo_path == to_change_core[-1][0]:
+                        f_json.write(f'"{path}"\n')
+                    else:
                         f_json.write(f'"{path}",\n')
 
                 f_json.write("]}\n")
