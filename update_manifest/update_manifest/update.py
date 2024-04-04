@@ -38,6 +38,7 @@ class UpdateManifest:
                 self.to_check[project["name"]] = {
                     "repo-path": project["repo-path"],
                     "revision": project["revision"],
+                    "path": project["path"],
                 }
 
     def get_remote_revisions(self):
