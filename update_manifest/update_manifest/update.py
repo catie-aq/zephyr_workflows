@@ -126,7 +126,7 @@ class UpdateManifest:
             "import": True,
         }
         data["manifest"]["projects"].insert(0, new_project)
-        with open("test_manifest.yaml", "w", encoding="utf-8") as f:
+        with open("test_manifest.yml", "w", encoding="utf-8") as f:
             yaml.dump(data, f)
 
     def update(self):
