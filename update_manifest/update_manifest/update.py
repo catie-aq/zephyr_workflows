@@ -101,6 +101,34 @@ class UpdateManifest:
         with open(self.manifest, "w", encoding="utf-8") as f:
             f.write(content)
 
+    def generate_test_manifest(self):
+        with open(self.manifest, "r", encoding="utf-8") as f:
+            data = yaml.safe_load(f)
+
+        # Add new remote
+        new_remote = {
+            "name": "zephyrproject-rtos",
+            "url-base": "https://github.com/zephyrproject-rtos",
+        }
+        data["manifest"]["remotes"].insert(0, new_remote)
+        headers = {"Authorization": f"token {self.token}"}
+        response = requests.get(
+            "https://api.github.com/repos/zephyrproject-rtos/zephyr/releases/latest",
+            headers=headers,
+            timeout=5,
+        )
+        rev = response.json()["tag_name"]
+        # Add new project
+        new_project = {
+            "name": "zephyr",
+            "remote": "zephyrproject-rtos",
+            "revision": rev,
+            "import": True,
+        }
+        data["manifest"]["projects"].insert(0, new_project)
+        with open("test_manifest.yaml", "w", encoding="utf-8") as f:
+            yaml.dump(data, f)
+
     def update(self):
         """
         Update the manifest file with the latest revisions of the repositories.
@@ -108,6 +136,7 @@ class UpdateManifest:
         self.parse_manifest()
         self.get_remote_revisions()
         self.update_manifest()
+        self.generate_test_manifest()
 
 
 @click.command()
