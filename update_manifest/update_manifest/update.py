@@ -50,6 +50,7 @@ class UpdateManifest:
         for project, details in self.to_check.items():
             repo_path = details["repo-path"]
             local_revision = details["revision"]
+            path = details["path"]
 
             repo_info_response = requests.get(
                 f"https://api.github.com/repos/catie-aq/{repo_path}",
@@ -67,21 +68,21 @@ class UpdateManifest:
             response.raise_for_status()
             remote_revision = response.json()["sha"]
             if local_revision != remote_revision:
-                to_change.append((repo_path, local_revision, remote_revision))
+                to_change.append((repo_path, local_revision, remote_revision, path))
                 self.to_check[project]["revision"] = remote_revision
 
         with open("change.md", "w", encoding="utf-8") as f:
             with open("matrix.json", "w", encoding="utf-8") as f_json:
                 f_json.write('{ \n "repo": [\n')
-                for repo_path, local_revision, remote_revision in to_change:
+                for repo_path, local_revision, remote_revision, path in to_change:
                     f.write(
                         f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
                         f"from {local_revision} to {remote_revision}.\n"
                     )
                     if repo_path == to_change[-1][0]:
-                        f_json.write(f'"{repo_path}"\n')
+                        f_json.write(f'"{path}"\n')
                     else:
-                        f_json.write(f'"{repo_path}",\n')
+                        f_json.write(f'"{path}",\n')
 
                 f_json.write("]}\n")
 
