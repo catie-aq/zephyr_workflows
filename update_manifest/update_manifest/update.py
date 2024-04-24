@@ -71,7 +71,9 @@ class UpdateManifest:
             remote_revision = response.json()["sha"]
             if local_revision != remote_revision:
                 if "core" in repo_path:
-                    to_change_core.append((repo_path, local_revision, remote_revision, path))
+                    to_change_core.append(
+                        (repo_path, local_revision, remote_revision, path)
+                    )
                 else:
                     to_change.append((repo_path, local_revision, remote_revision, path))
                 self.to_check[project]["revision"] = remote_revision
@@ -82,7 +84,7 @@ class UpdateManifest:
                 for repo_path, local_revision, remote_revision, path in to_change:
                     f.write(
                         f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
-                        f"from {local_revision} to {remote_revision}.\n"
+                        f"from [{local_revision} to {remote_revision}](https://github.com/catie-aq/{repo_path}/compare/{local_revision}..{remote_revision}).\n"
                     )
                     if repo_path == to_change[-1][0]:
                         f_json.write(f'"{path}"\n')
@@ -95,7 +97,7 @@ class UpdateManifest:
                 for repo_path, local_revision, remote_revision, path in to_change_core:
                     f.write(
                         f"- Bumps [catie-aq/{repo_path}](https://github.com/catie-aq/{repo_path}) "
-                        f"from {local_revision} to {remote_revision}.\n"
+                        f"from [{local_revision} to {remote_revision}](https://github.com/catie-aq/{repo_path}/compare/{local_revision}..{remote_revision}).\n"
                     )
                     if repo_path == to_change_core[-1][0]:
                         f_json.write(f'"{path}"\n')
