@@ -57,14 +57,14 @@ jobs:
           sixtron_revision: ${{ steps.get-6tron-revision.outputs.release }}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
 
-      - uses: catie-aq/zephyr_workflows/zephyr_init@18-add-twister-action
+      - uses: catie-aq/zephyr_workflows/zephyr_init@main
         with:
           personal_access_token: ${{ secrets.personal_access_token }}
 
       - name: ls
         run: ls ${{ github.event.repository.name }}/${{ inputs.application }}/${{ inputs.path }}
 
-      - uses: catie-aq/zephyr_workflows/zephyr_twister@18-add-twister-action
+      - uses: catie-aq/zephyr_workflows/zephyr_twister@main
         with:
           path: ${{ github.event.repository.name }}/${{ inputs.path }}
           extra_cmd: "cd workdir"
