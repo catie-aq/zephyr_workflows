@@ -71,9 +71,7 @@ class UpdateManifest:
             remote_revision = response.json()["sha"]
             if local_revision != remote_revision:
                 if "core" in repo_path:
-                    to_change_core.append(
-                        (repo_path, local_revision, remote_revision, path)
-                    )
+                    to_change_core.append((repo_path, local_revision, remote_revision, path))
                 else:
                     to_change.append((repo_path, local_revision, remote_revision, path))
                 self.to_check[project]["revision"] = remote_revision

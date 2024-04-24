@@ -34,7 +34,7 @@ runs:
         REPO_BOARD=${{ inputs.repo_board }}
         REPO_BOARD_WITH_HYPHENS=$(echo $REPO_BOARD | tr '_' '-')
         echo "repo_board=$REPO_BOARD_WITH_HYPHENS" >> $GITHUB_OUTPUT
-    
+
     - name: Generate YAML file
       shell: bash
       run: |
@@ -58,7 +58,7 @@ runs:
               repo-path: zephyr_6tron-manifest
               revision: ${{ inputs.sixtron_revision }}
               path: 6tron/6tron-manifest
-              import: 
+              import:
                 name-allowlist:
                   - 6tron-connector
                   - ${{ steps.replace-characters.outputs.repo_board }}

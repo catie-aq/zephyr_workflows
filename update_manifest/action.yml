@@ -21,7 +21,7 @@ runs:
       shell: bash
     - name: Perform Update
       id: update
-      run: | 
+      run: |
         cd ${GITHUB_ACTION_PATH}
         poetry run update --manifest ${{ inputs.manifest }} --token ${{ inputs.personal_access_token }}
         echo "::set-output name=change::${GITHUB_ACTION_PATH}/change.md"
