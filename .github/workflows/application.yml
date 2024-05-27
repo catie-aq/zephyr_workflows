@@ -29,8 +29,7 @@ jobs:
   pre-commit:
     uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
   build:
-    runs-on:
-      group: default
+    runs-on: sonu-github-arc
     container:
       image: ${{ inputs.container }}
       options: --user root --privileged
