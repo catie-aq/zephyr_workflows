@@ -1,12 +1,79 @@
-name: Build & Test Zephyr Board
+name: Test Zephyr Board
 
 on:
   workflow_call:
+    inputs:
+      tag:
+        required: false
+        type: string
+      options:
+        required: false
+        type: string
+        default: ""
+      board:
+        required: true
+        type: string
+      container:
+        required: false
+        type: string
+        default: "zephyrprojectrtos/ci"
+      extra_cmd:
+        required: false
+        type: string
+        description: "Extra command to run before build"
+        default: "echo ''"
+    secrets:
+      personal_access_token:
+        required: true
+
+permissions: read-all
 
 jobs:
-  build_and_test_ros2_package:
-    runs-on:
-      group: default
+  pre-commit:
+    uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
+  test:
+    runs-on: sonu-github-arc
+    container:
+      image: ${{ inputs.container }}
+      options: --user root --privileged
+    env:
+      CMAKE_PREFIX_PATH: /opt/toolchains
     steps:
-      - name: Hello world
-        run: echo "Hello world"
+      - name: Run Extra Command
+        shell: bash
+        run: ${{ inputs.extra_cmd }}
+
+      - name: Get current branch name
+        id: branch-names
+        uses: tj-actions/branch-names@v8
+
+      - name: Get 6TRON Manifest last tag
+        id: get-6tron-revision
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          owner: catie-aq
+          repo: zephyr_6tron-manifest
+          excludes: prerelease, draft
+          token: ${{ secrets.personal_access_token }}
+
+      - uses: catie-aq/zephyr_workflows/generate_manifest@28-add-board-workflow
+        with:
+          sixtron_revision: ${{ steps.get-6tron-revision.outputs.release }}
+          repository_revision: ${{ steps.branch-names.outputs.current_branch }}
+
+      - uses: catie-aq/zephyr_workflows/zephyr_init@main
+        with:
+          personal_access_token: ${{ secrets.personal_access_token }}
+
+      - uses: catie-aq/zephyr_workflows/zephyr_twister@main
+        with:
+          tag: ${{ inputs.tag }}
+          options: ${{ inputs.options }}
+          board: ${{ inputs.board }}
+
+      - name: Clean up
+        if: always()
+        run: |
+          rm -rf workdir
+          rm -rf .west
+          rm -rf ${{ github.workspace }}
