@@ -51,7 +51,7 @@ jobs:
           excludes: prerelease, draft
           token: ${{ secrets.personal_access_token }}
 
-      - uses: catie-aq/zephyr_workflows/generate_manifest@28-add-board-workflow
+      - uses: catie-aq/zephyr_workflows/generate_manifest@main
         with:
           repo_board: ${{ inputs.board }}
           sixtron_revision: ${{ steps.get-6tron-revision.outputs.release }}

@@ -1,5 +1,5 @@
-name: "Generate Zephyr Manifest"
-description: "Generates the west.yml file"
+name: Generate Zephyr Manifest
+description: Generates the west.yml file
 inputs:
   sixtron_revision:
     description: "6TRON Manifest revision"
