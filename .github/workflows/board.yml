@@ -47,18 +47,19 @@ jobs:
         id: branch-names
         uses: tj-actions/branch-names@v8
 
-      - name: Get 6TRON Manifest last tag
+      - name: Get the latest Zephyr release
         id: get-6tron-revision
         uses: pozetroninc/github-action-get-latest-release@master
         with:
-          owner: catie-aq
-          repo: zephyr_6tron-manifest
+          owner: zephyrproject-rtos
+          repo: zephyr
           excludes: prerelease, draft
           token: ${{ secrets.personal_access_token }}
 
       - uses: catie-aq/zephyr_workflows/generate_manifest@28-add-board-workflow
         with:
-          sixtron_revision: ${{ steps.get-6tron-revision.outputs.release }}
+          sixtron_revision: main
+          zephyr_revision: ${{ steps.get-6tron-revision.outputs.release }}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
 
       - uses: catie-aq/zephyr_workflows/zephyr_init@main
