@@ -31,7 +31,7 @@ permissions: read-all
 jobs:
   pre-commit:
     uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
-  test:
+  twister-test:
     runs-on: sonu-github-arc
     container:
       image: ${{ inputs.container }}
@@ -56,7 +56,7 @@ jobs:
           excludes: prerelease, draft
           token: ${{ secrets.personal_access_token }}
 
-      - uses: catie-aq/zephyr_workflows/generate_manifest@28-add-board-workflow
+      - uses: catie-aq/zephyr_workflows/generate_manifest@main
         with:
           sixtron_revision: main
           zephyr_revision: ${{ steps.get-6tron-revision.outputs.release }}
