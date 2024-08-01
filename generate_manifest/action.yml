@@ -1,15 +1,18 @@
-name: 'Generate Zephyr Manifest'
-description: 'Generates the west.yml file'
+name: "Generate Zephyr Manifest"
+description: "Generates the west.yml file"
 inputs:
   sixtron_revision:
+    description: "6TRON Manifest revision"
     required: true
-    type: string
+  zephyr_revision:
+    description: "Zephyr revision"
+    required: false
   repository_revision:
+    description: "Repository revision"
     required: true
-    type: string
   repo_board:
-    required: true
-    type: string
+    description: "Board repository"
+    required: false
 runs:
   using: "composite"
   steps:
@@ -19,21 +22,31 @@ runs:
         mkdir -p workdir
         touch workdir/west.yml
 
-    - name: Get version without suffix
+    - name: Get Zephyr Version without suffix
       shell: bash
       id: get-version
       run: |
-        VERSION=${{ inputs.sixtron_revision }}
-        VERSION_WITHOUT_SUFFIX=$(echo $VERSION | cut -d'+' -f1)
-        echo "version=$VERSION_WITHOUT_SUFFIX" >> $GITHUB_OUTPUT
+        if [ "${{ inputs.zephyr_revision }}" != "" ]; then
+          VERSION=${{ inputs.zephyr_revision }}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        else
+          VERSION=${{ inputs.sixtron_revision }}
+          VERSION_WITHOUT_SUFFIX=$(echo $VERSION | cut -d'+' -f1)
+          echo "version=$VERSION_WITHOUT_SUFFIX" >> $GITHUB_OUTPUT
+        fi
 
     - name: Replace underscores with hyphens
       id: replace-characters
       shell: bash
       run: |
-        REPO_BOARD=${{ inputs.repo_board }}
-        REPO_BOARD_WITH_HYPHENS=$(echo $REPO_BOARD | tr '_' '-')
-        echo "repo_board=$REPO_BOARD_WITH_HYPHENS" >> $GITHUB_OUTPUT
+        if [ "${{ inputs.repo_board }}" != "" ]; then
+          REPO_BOARD=${{ inputs.repo_board }}
+          REPO_BOARD_WITH_HYPHENS=$(echo $REPO_BOARD | tr '_' '-')
+          REPO_BOARD_WITH_HYPHENS_LIST="- ${REPO_BOARD_WITH_HYPHENS}"
+          echo "repo_board=$REPO_BOARD_WITH_HYPHENS_LIST" >> $GITHUB_OUTPUT
+        else
+          echo "repo_board=" >> $GITHUB_OUTPUT
+        fi
 
     - name: Generate YAML file
       shell: bash
@@ -61,5 +74,5 @@ runs:
               import:
                 name-allowlist:
                   - 6tron-connector
-                  - ${{ steps.replace-characters.outputs.repo_board }}
+                  ${{ steps.replace-characters.outputs.repo_board }}
         EOF
