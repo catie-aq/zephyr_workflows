@@ -34,10 +34,12 @@ jobs:
   twister-test:
     runs-on: sonu-github-arc
     container:
-      image: ${{ inputs.container }}
+      image: ${IMAGE_NAME}
       options: --user root --privileged
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
+      ZEPHYR_VERSION: "3.7.0"
+      IMAGE_NAME: "zephyrprojectrtos/ci:v0.26.13"
     steps:
       - name: Run Extra Command
         shell: bash
@@ -47,19 +49,10 @@ jobs:
         id: branch-names
         uses: tj-actions/branch-names@v8
 
-      - name: Get the latest Zephyr release
-        id: get-6tron-revision
-        uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          owner: zephyrproject-rtos
-          repo: zephyr
-          excludes: prerelease, draft
-          token: ${{ secrets.personal_access_token }}
-
       - uses: catie-aq/zephyr_workflows/generate_manifest@main
         with:
           sixtron_revision: main
-          zephyr_revision: ${{ steps.get-6tron-revision.outputs.release }}
+          zephyr_revision: ${ZEPHYR_VERSION}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
 
       - uses: catie-aq/zephyr_workflows/zephyr_init@main
