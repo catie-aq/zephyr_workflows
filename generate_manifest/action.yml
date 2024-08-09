@@ -118,12 +118,12 @@ runs:
       shell: bash
       run: |
         cat << EOF >> workdir/west.yml
-            - name: 6tron-manifest
+            - name: 6tron_manifest
               remote: catie-6tron
               repo-path: zephyr_6tron-manifest
               revision: ${{ inputs.sixtron_connector_revision }}
-              path: 6tron/6tron-manifest
+              path: 6tron/6tron_manifest
               import:
                 name-allowlist:
-                  - 6tron-connector
+                  - 6tron_connector
         EOF
