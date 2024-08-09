@@ -3,7 +3,7 @@ description: Generates the west.yml file
 inputs:
   sixtron_revision:
     description: "6TRON Manifest revision"
-    required: true
+    required: false
   zephyr_revision:
     description: "Zephyr revision"
     required: false
@@ -12,6 +12,9 @@ inputs:
     required: true
   repo_board:
     description: "Board repository"
+    required: false
+  sixtron_connector_revision:
+    description: "sixtron-connector revision"
     required: false
 runs:
   using: "composite"
@@ -61,7 +64,7 @@ runs:
           projects:
             - name: zephyr
               remote: zephyrproject-rtos
-              revision: ${{ steps.get-version.outputs.version }}
+              revision: ${{ inputs.zephyr_revision }}
               import:
                 name-blocklist:
                   - hal_altera
@@ -85,16 +88,42 @@ runs:
                   - hal_ti
                   - hal_wurthelektronik
                   - hal_xtensa
+        EOF
+
+    - name: Append modules to YAML file
+      if: ${{ inputs.repository_revision }}
+      shell: bash
+      run: |
+        cat << EOF >> workdir/west.yml   
             - name: ${{ github.event.repository.name }}
               remote: catie-6tron
               revision: ${{ inputs.repository_revision }}
+        EOF
+    
+    - name: Append 6TRON Manifest to YAML file
+      if: ${{ inputs.sixtron_revision }}
+      shell: bash
+      run: |
+        cat << EOF >> workdir/west.yml
             - name: 6tron-manifest
               remote: catie-6tron
               repo-path: zephyr_6tron-manifest
               revision: ${{ inputs.sixtron_revision }}
               path: 6tron/6tron-manifest
+              import: true
+        EOF
+
+    - name: Append sixtron-connector to YAML file
+      if: ${{ inputs.sixtron_connector_revision }}
+      shell: bash
+      run: |
+        cat << EOF >> workdir/west.yml
+            - name: 6tron-manifest
+              remote: catie-6tron
+              repo-path: zephyr_6tron-manifest
+              revision: ${{ inputs.sixtron_connector_revision }}
+              path: 6tron/6tron-manifest
               import:
                 name-allowlist:
                   - 6tron-connector
-                  ${{ steps.replace-characters.outputs.repo_board }}
         EOF
