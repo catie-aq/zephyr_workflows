@@ -31,8 +31,9 @@ jobs:
     runs-on: sonu-github-arc
     container: ${{ inputs.container }}
     env:
-      ZEPHYR_VERSION: "v3.7.0"
       CMAKE_PREFIX_PATH: /opt/toolchains
+      ZEPHYR_VERSION: "v3.7.0"
+      TWISTER_OPTIONS: "--force-color --inline-logs -v --clobber-output --integration "
     steps:
       - name: Extra command
         if: ${{ inputs.extra_cmd }}
@@ -56,6 +57,7 @@ jobs:
         with:
           path: ${{ github.event.repository.name }}/${{ inputs.path }}
           extra_cmd: "cd workdir"
+          options: ${{ env.TWISTER_OPTIONS }}
 
       - name: Clean up
         if: always()
