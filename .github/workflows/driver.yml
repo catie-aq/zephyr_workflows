@@ -31,6 +31,7 @@ jobs:
     runs-on: sonu-github-arc
     container: ${{ inputs.container }}
     env:
+      ZEPHYR_VERSION: "v3.7.0"
       CMAKE_PREFIX_PATH: /opt/toolchains
     steps:
       - name: Extra command
@@ -41,19 +42,10 @@ jobs:
         id: branch-names
         uses: tj-actions/branch-names@v8
 
-      - name: Get 6TRON Manifest last tag
-        id: get-6tron-revision
-        uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          owner: catie-aq
-          repo: zephyr_6tron-manifest
-          excludes: prerelease, draft
-          token: ${{ secrets.personal_access_token }}
-
       - uses: catie-aq/zephyr_workflows/generate_manifest@main
         with:
-          repo_board: ${{ inputs.board }}
-          sixtron_revision: ${{ steps.get-6tron-revision.outputs.release }}
+          zephyr_revision: ${{ env.ZEPHYR_VERSION }}
+          sixtron_revision: "main"
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
 
       - uses: catie-aq/zephyr_workflows/zephyr_init@main
