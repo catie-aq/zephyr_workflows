@@ -104,13 +104,16 @@ runs:
       if: ${{ inputs.sixtron_revision }}
       shell: bash
       run: |
+        FORMATTED_BLOCKLIST=$(echo ${{ github.event.repository.name }} | sed 's/zephyr_//g' | tr '-' '_')
         cat << EOF >> workdir/west.yml
             - name: 6tron-manifest
               remote: catie-6tron
               repo-path: zephyr_6tron-manifest
               revision: ${{ inputs.sixtron_revision }}
               path: 6tron/6tron-manifest
-              import: true
+              import:
+                name-blocklist:
+                  - ${FORMATTED_BLOCKLIST}
         EOF
 
     - name: Append sixtron-connector to YAML file
@@ -127,3 +130,4 @@ runs:
                 name-allowlist:
                   - 6tron_connector
         EOF
+        
