@@ -6,6 +6,9 @@ on:
       application:
         required: true
         type: string
+      blobs:
+        required: false
+        type: string
       board:
         required: false
         type: string
@@ -45,6 +48,10 @@ jobs:
       - uses: catie-aq/zephyr_workflows/zephyr_init@main
         with:
           personal_access_token: ${{ secrets.personal_access_token }}
+      - name: Download blobs
+        if: ${{ inputs.blobs }}
+        run: |
+          west blobs fetch ${{ inputs.blobs }} 
       - uses: catie-aq/zephyr_workflows/zephyr_build@main
         with:
           application: workdir/${{ inputs.application }}
