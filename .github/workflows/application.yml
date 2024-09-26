@@ -42,11 +42,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: workdir
+      - uses: catie-aq/zephyr_workflows/zephyr_init@main
+        with:
+          personal_access_token: ${{ secrets.personal_access_token }}
       - uses: catie-aq/zephyr_workflows/zephyr_build@main
         with:
           application: workdir/${{ inputs.application }}
           board: ${{ inputs.board }}
-          personal_access_token: ${{ secrets.personal_access_token }}
+          extra_cmd: "cd workdir"
       - name: Clean up
         if: always()
         run: |
