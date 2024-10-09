@@ -10,7 +10,7 @@ on:
       container:
         required: false
         type: string
-        default: "zephyrprojectrtos/ci"
+        default: "zephyrprojectrtos/ci:v0.26.13"
       extra_cmd:
         required: false
         type: string
