@@ -20,7 +20,7 @@ permissions: read-all
 jobs:
   pre-commit:
     uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
-  twister-test:
+  twister:
     runs-on: sonu-github-arc
     container:
       image: "zephyrprojectrtos/ci:v0.26.13"
