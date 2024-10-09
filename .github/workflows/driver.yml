@@ -27,7 +27,7 @@ on:
 jobs:
   pre-commit:
     uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
-  build:
+  twister:
     runs-on: sonu-github-arc
     container: ${{ inputs.container }}
     env:
