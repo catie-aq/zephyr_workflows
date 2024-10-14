@@ -20,7 +20,7 @@ permissions: read-all
 jobs:
   pre-commit:
     uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
-  twister:
+  build:
     runs-on: sonu-github-arc
     container:
       image: "zephyrprojectrtos/ci:v0.26.13"
@@ -47,7 +47,7 @@ jobs:
         with:
           personal_access_token: ${{ secrets.personal_access_token }}
 
-      - uses: catie-aq/zephyr_workflows/zephyr_build@main
+      - uses: catie-aq/zephyr_workflows/zephyr_build@22-add-workflow-for-shields
         with:
           board: zest_core_stm32l4a6rg
           application: zephyr/sample/basic/blinky
