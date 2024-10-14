@@ -1,0 +1,54 @@
+name: Test Zephyr Shield
+
+on:
+  workflow_call:
+    inputs:
+      shield:
+        required: true
+        type: string
+      extra_cmd:
+        required: false
+        type: string
+        description: "Extra command to run before build"
+        default: "echo ''"
+    secrets:
+      personal_access_token:
+        required: true
+
+permissions: read-all
+
+jobs:
+  pre-commit:
+    uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
+  build:
+    runs-on: sonu-github-arc
+    container:
+      image: "zephyrprojectrtos/ci:v0.26.13"
+      options: --user root --privileged
+    env:
+      CMAKE_PREFIX_PATH: /opt/toolchains
+      ZEPHYR_VERSION: "v3.7.0"
+    steps:
+      - name: Run Extra Command
+        shell: bash
+        run: ${{ inputs.extra_cmd }}
+
+      - name: Get current branch name
+        id: branch-names
+        uses: tj-actions/branch-names@v8
+
+      - uses: catie-aq/zephyr_workflows/generate_manifest@main
+        with:
+          sixtron_revision: "main"
+          zephyr_revision: ${{ env.ZEPHYR_VERSION }}
+          repository_revision: ${{ steps.branch-names.outputs.current_branch }}
+
+      - uses: catie-aq/zephyr_workflows/zephyr_init@main
+        with:
+          personal_access_token: ${{ secrets.personal_access_token }}
+
+      - uses: catie-aq/zephyr_workflows/zephyr_build@main
+        with:
+          board: zest_core_stm32l4a6rg
+          application: zephyr/samples/basic/blinky
+          shield: ${{ inputs.shield }}
