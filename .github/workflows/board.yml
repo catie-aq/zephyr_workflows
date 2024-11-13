@@ -6,6 +6,10 @@ on:
       board:
         required: true
         type: string
+      tags:
+        required: false
+        type: string
+        default: "DAC,ieee802154,counter,gpio,serial,i2c,i3c,UART,qspi,pwm,button,usb,spi,lora,i2s,mipi_dbi,wifi,ethernet,nvs,uart,dma,clock_control,usbc,watchdog,dac,w1,input,peci,can,bluetooth,adc,clock"
       extra_cmd:
         required: false
         type: string
@@ -28,7 +32,7 @@ jobs:
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
       ZEPHYR_VERSION: "v3.7.0"
-      TWISTER_OPTIONS: "--force-color --inline-logs -v --clobber-output --integration "
+      TWISTER_OPTIONS: "--force-color --inline-logs -v --clobber-output"
     steps:
       - name: Run Extra Command
         shell: bash
@@ -52,6 +56,7 @@ jobs:
         with:
           board: ${{ inputs.board }}
           options: ${{ env.TWISTER_OPTIONS }}
+          tags: ${{ inputs.tags }}
 
       - name: Clean up
         if: always()
