@@ -1,7 +1,7 @@
-name: 'Zephyr Twister'
-description: 'Run tests with twister'
+name: "Zephyr Twister"
+description: "Run tests with twister"
 inputs:
-  tag:
+  tags:
     required: false
     type: string
     description: "Test to run"
@@ -34,8 +34,11 @@ runs:
     - name: Run test with twister
       shell: bash
       run: |
-        if [[ -n "${{ inputs.tag }}" ]]; then
-          test="-t  ${{ inputs.tag }}"
+        if [[ -n "${{ inputs.tags }}" ]]; then
+          test=""
+          for tag in $(echo ${{ inputs.tags }} | tr "," "\n"); do
+            test="$test -t $tag"
+          done
         fi
         if [[ -n "${{ inputs.board }}" ]]; then
           board="-p ${{ inputs.board }}"
