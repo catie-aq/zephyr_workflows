@@ -1,25 +1,18 @@
 name: 'Zephyr Init'
-description: 'Initiate Zephyr workspace'
+description: 'Initialize Zephyr workspace'
 inputs:
   personal_access_token:
     required: true
-  extra_cmd:
-    required: false
-    type: string
-    description: "Extra command to run before build"
-    default: "echo ''"
 
 runs:
   using: "composite"
   steps:
-    - name: Run Extra Command
-      shell: bash
-      run: ${{ inputs.extra_cmd }}
     - name: Setup permission
       shell: bash
       run: |
         git config --global credential.helper store
         echo "https://$GITHUB_ACTOR:${{ inputs.personal_access_token }}@github.com" >~/.git-credentials
+
     - name: Init and Update Zephyr Application
       shell: bash
       run: |

@@ -42,24 +42,21 @@ jobs:
       - name: Extra command
         if: ${{ inputs.extra_cmd }}
         run: ${{ inputs.extra_cmd }}
+
       - uses: actions/checkout@v4
         with:
           path: workdir
+
       - uses: catie-aq/zephyr_workflows/zephyr_init@main
         with:
           personal_access_token: ${{ secrets.personal_access_token }}
+
       - name: Download blobs
         if: ${{ inputs.blobs }}
         run: |
-          west blobs fetch ${{ inputs.blobs }} 
+          west blobs fetch ${{ inputs.blobs }}
+
       - uses: catie-aq/zephyr_workflows/zephyr_build@main
         with:
           application: workdir/${{ inputs.application }}
           board: ${{ inputs.board }}
-          extra_cmd: "cd workdir"
-      - name: Clean up
-        if: always()
-        run: |
-          rm -rf workdir
-          rm -rf .west
-          rm -rf ${{ github.workspace }}

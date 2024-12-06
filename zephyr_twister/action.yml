@@ -4,7 +4,7 @@ inputs:
   tags:
     required: false
     type: string
-    description: "Test to run"
+    description: "Twister tags"
   options:
     required: false
     type: string
@@ -18,19 +18,10 @@ inputs:
     required: false
     type: string
     description: "Path to the test directory"
-  extra_cmd:
-    required: false
-    type: string
-    description: "Extra command to run before build"
-    default: "echo ''"
 
 runs:
   using: "composite"
   steps:
-    - name: Run Extra Command
-      shell: bash
-      run: ${{ inputs.extra_cmd }}
-
     - name: Run test with twister
       shell: bash
       run: |

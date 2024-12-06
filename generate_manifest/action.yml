@@ -19,6 +19,7 @@ inputs:
   sixtron_connector_revision:
     description: "sixtron-connector revision"
     required: false
+
 runs:
   using: "composite"
   steps:
@@ -27,32 +28,6 @@ runs:
       run: |
         mkdir -p workdir
         touch workdir/west.yml
-
-    - name: Get Zephyr Version without suffix
-      shell: bash
-      id: get-version
-      run: |
-        if [ "${{ inputs.zephyr_revision }}" != "" ]; then
-          VERSION=${{ inputs.zephyr_revision }}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-        else
-          VERSION=${{ inputs.sixtron_revision }}
-          VERSION_WITHOUT_SUFFIX=$(echo $VERSION | cut -d'+' -f1)
-          echo "version=$VERSION_WITHOUT_SUFFIX" >> $GITHUB_OUTPUT
-        fi
-
-    - name: Replace underscores with hyphens
-      id: replace-characters
-      shell: bash
-      run: |
-        if [ "${{ inputs.repo_board }}" != "" ]; then
-          REPO_BOARD=${{ inputs.repo_board }}
-          REPO_BOARD_WITH_HYPHENS=$(echo $REPO_BOARD | tr '_' '-')
-          REPO_BOARD_WITH_HYPHENS_LIST="- ${REPO_BOARD_WITH_HYPHENS}"
-          echo "repo_board=$REPO_BOARD_WITH_HYPHENS_LIST" >> $GITHUB_OUTPUT
-        else
-          echo "repo_board=" >> $GITHUB_OUTPUT
-        fi
 
     - name: Generate YAML file
       shell: bash
@@ -97,12 +72,12 @@ runs:
       if: ${{ inputs.repository_revision }}
       shell: bash
       run: |
-        cat << EOF >> workdir/west.yml   
+        cat << EOF >> workdir/west.yml
             - name: ${{ github.event.repository.name }}
               remote: catie-6tron
               revision: ${{ inputs.repository_revision }}
         EOF
-    
+
     - name: Append 6TRON Manifest to YAML file
       if: ${{ inputs.sixtron_revision != '' && inputs.sixtron_module_allowlist == '' }}
       shell: bash
@@ -149,4 +124,3 @@ runs:
                 name-allowlist:
                   - 6tron_connector
         EOF
-        
