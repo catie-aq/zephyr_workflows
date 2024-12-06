@@ -12,30 +12,25 @@ inputs:
     required: false
     type: string
     default: ""
-  extra_cmd:
-    required: false
-    type: string
-    description: "Extra command to run before build"
-    default: "echo ''"
 
 runs:
   using: "composite"
   steps:
-    - name: Run Extra Command
-      shell: bash
-      run: ${{ inputs.extra_cmd }}
     - name: Build Zephyr Application
       shell: bash
       if: ${{ inputs.board != '' && inputs.shield != '' }}
       run: west build -b ${{ inputs.board }} --shield ${{ inputs.shield }} ${{ inputs.application }} -p
+
     - name: Build Zephyr Application
       shell: bash
       if: ${{ inputs.board != '' &&  inputs.shield == '' }}
       run: west build -b ${{ inputs.board }} ${{ inputs.application }} -p
+
     - name: Build Zephyr Application
       shell: bash
       if: ${{ inputs.board == '' && inputs.shield != '' }}
       run: west build --shield ${{ inputs.shield }} ${{ inputs.application }} -p
+
     - name: Build Zephyr Application
       shell: bash
       if: ${{ inputs.board == '' && inputs.shield == '' }}

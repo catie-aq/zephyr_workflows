@@ -57,10 +57,3 @@ jobs:
           board: ${{ inputs.board }}
           options: ${{ env.TWISTER_OPTIONS }}
           tags: ${{ inputs.tags }}
-
-      - name: Clean up
-        if: always()
-        run: |
-          rm -rf workdir
-          rm -rf .west
-          rm -rf ${{ github.workspace }}

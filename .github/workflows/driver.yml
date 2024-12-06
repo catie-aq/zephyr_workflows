@@ -57,12 +57,4 @@ jobs:
       - uses: catie-aq/zephyr_workflows/zephyr_twister@main
         with:
           path: ${{ github.event.repository.name }}/${{ inputs.path }}
-          extra_cmd: "cd workdir"
           options: ${{ env.TWISTER_OPTIONS }}
-
-      - name: Clean up
-        if: always()
-        run: |
-          rm -rf workdir
-          rm -rf .west
-          rm -rf ${{ github.workspace }}
