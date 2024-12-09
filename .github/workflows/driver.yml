@@ -43,7 +43,7 @@ jobs:
         id: branch-names
         uses: tj-actions/branch-names@v8
 
-      - uses: catie-aq/zephyr_workflows/generate_manifest@main
+      - uses: catie-aq/zephyr_workflows/generate_manifest@49-use-image-including-6tron-workspace
         with:
           zephyr_revision: ${{ env.ZEPHYR_VERSION }}
           sixtron_revision: "main"
@@ -51,7 +51,7 @@ jobs:
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
           manifest_path: 6tron-project
 
-      - uses: catie-aq/zephyr_workflows/zephyr_init@main
+      - uses: catie-aq/zephyr_workflows/zephyr_init@49-use-image-including-6tron-workspace
         with:
           personal_access_token: ${{ secrets.personal_access_token }}
           manifest_path: 6tron-project
