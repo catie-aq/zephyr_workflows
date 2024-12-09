@@ -47,10 +47,12 @@ jobs:
           zephyr_revision: ${{ env.ZEPHYR_VERSION }}
           sixtron_module_allowlist: "6tron_connector,zest_core_fmlr-72,zest_core_nrf52832,zest_core_nrf5340,zest_core_stm32g474ve,zest_core_stm32h753zi,zest_core_stm32l4a6rg,zest_core_stm32l562ve"
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
+          manifest_path: 6tron-project
 
       - uses: catie-aq/zephyr_workflows/zephyr_init@main
         with:
           personal_access_token: ${{ secrets.personal_access_token }}
+          manifest_path: 6tron-project
 
       - uses: catie-aq/zephyr_workflows/zephyr_build@main
         with:
