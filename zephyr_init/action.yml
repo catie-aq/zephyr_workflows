@@ -3,6 +3,10 @@ description: 'Initialize Zephyr workspace'
 inputs:
   personal_access_token:
     required: true
+  manifest_path:
+    description: "Path to the manifest file"
+    required: false
+    default: "workdir"
 
 runs:
   using: "composite"
@@ -17,5 +21,5 @@ runs:
       shell: bash
       run: |
         rm -rf .west
-        west init -l workdir
+        west init -l ${{ inputs.manifest_path }}
         west update
