@@ -9,7 +9,7 @@ on:
       container:
         required: false
         type: string
-        default: "ghcr.io/catie-aq/zephyr_docker:v0.27.4"
+        default: "ghcr.io/catie-aq/zephyr_docker:v0.27.4-workspace"
       tags:
         required: false
         type: string
@@ -30,9 +30,7 @@ jobs:
     uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
   twister:
     runs-on: sonu-github-arc
-    container:
-      image: ${{ inputs.container }}
-      options: --user root --privileged
+    container: ${{ inputs.container }}
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
       ZEPHYR_VERSION: "v4.0.0"
