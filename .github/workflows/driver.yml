@@ -10,7 +10,7 @@ on:
       container:
         required: false
         type: string
-        default: "zephyrprojectrtos/ci:v0.26.13"
+        default: "ghcr.io/catie-aq/zephyr_docker:v0.26.16-workspace"
       extra_cmd:
         required: false
         type: string

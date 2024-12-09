@@ -6,6 +6,10 @@ on:
       board:
         required: true
         type: string
+      container:
+        required: false
+        type: string
+        default: "ghcr.io/catie-aq/zephyr_docker:v0.26.16-workspace"
       tags:
         required: false
         type: string
@@ -26,9 +30,7 @@ jobs:
     uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
   twister:
     runs-on: sonu-github-arc
-    container:
-      image: "zephyrprojectrtos/ci:v0.26.13"
-      options: --user root --privileged
+    container: ${{ inputs.container }}
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
       ZEPHYR_VERSION: "v3.7.0"
