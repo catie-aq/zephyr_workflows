@@ -46,7 +46,6 @@ runs:
       shell: bash
       run: |
         cat << EOF >> ${{ inputs.manifest_path }}/west.yml
-        manifest:
           projects:
             - name: zephyr
               remote: zephyrproject-rtos
