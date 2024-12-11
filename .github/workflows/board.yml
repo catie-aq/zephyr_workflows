@@ -30,7 +30,9 @@ jobs:
     uses: catie-aq/generic_workflows/.github/workflows/pre-commit.yaml@main
   twister:
     runs-on: sonu-github-arc
-    container: ${{ inputs.container }}
+    container:
+      image: ${{ inputs.container }}
+      options: "--workdir /6tron-workspace"
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
       ZEPHYR_VERSION: "v4.0.0"
