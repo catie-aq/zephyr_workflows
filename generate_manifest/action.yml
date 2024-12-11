@@ -45,7 +45,7 @@ runs:
     - name: Add Zephyr to YAML file
       shell: bash
       run: |
-        cat << EOF > ${{ inputs.manifest_path }}/west.yml
+        cat << EOF >> ${{ inputs.manifest_path }}/west.yml
         manifest:
           projects:
             - name: zephyr
