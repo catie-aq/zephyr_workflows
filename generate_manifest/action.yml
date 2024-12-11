@@ -140,4 +140,5 @@ runs:
       shell: bash
       run: |
         apt install -y tree
+        apt update
         tree -L 2 .
