@@ -32,7 +32,9 @@ jobs:
     runs-on: sonu-github-arc
     container:
       image: ${{ inputs.container }}
-      options: "--workdir /6tron-workspace"
+    defaults:
+      run:
+        working-directory: /6tron-workspace
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
       ZEPHYR_VERSION: "v4.0.0"
