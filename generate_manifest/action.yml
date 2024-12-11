@@ -30,6 +30,7 @@ runs:
     - name: Create manifest directory
       shell: bash
       run: |
+        ls
         mkdir -p ${{ inputs.manifest_path }}
 
     - name: Add remotes to YAML file
