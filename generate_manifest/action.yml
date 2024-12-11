@@ -138,4 +138,6 @@ runs:
 
     - name: Display tree
       shell: bash
-      run: tree -L 2 .
+      run: |
+        apt install -y tree
+        tree -L 2 .
