@@ -27,10 +27,13 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Run PWD
+      shell: bash
+      run: pwd
+
     - name: Create manifest directory
       shell: bash
       run: |
-        ls
         mkdir -p ${{ inputs.manifest_path }}
 
     - name: Add remotes to YAML file
