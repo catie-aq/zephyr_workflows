@@ -139,6 +139,6 @@ runs:
     - name: Display tree
       shell: bash
       run: |
-        apt install -y tree
         apt update
+        apt install -y tree
         tree -L 2 .
