@@ -135,3 +135,7 @@ runs:
     - name: cat west.yml
       shell: bash
       run: cat ${{ inputs.manifest_path }}/west.yml
+
+    - name: Display tree
+      shell: bash
+      run: tree -L 2 .
