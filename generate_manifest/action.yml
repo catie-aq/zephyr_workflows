@@ -34,11 +34,12 @@ runs:
     - name: Create manifest directory
       shell: bash
       run: |
-        mkdir -p ${{ inputs.manifest_path }}
+        mkdir -p /6tron-workspace/${{ inputs.manifest_path }}
 
     - name: Add remotes to YAML file
       shell: bash
       run: |
+        cd /6tron-workspace/
         echo "manifest:" > ${{ inputs.manifest_path }}/west.yml
         echo "  remotes:" >> ${{ inputs.manifest_path }}/west.yml
         echo "    - name: zephyrproject-rtos" >> ${{ inputs.manifest_path }}/west.yml
@@ -49,6 +50,7 @@ runs:
     - name: Add Zephyr to YAML file
       shell: bash
       run: |
+        cd /6tron-workspace/
         cat << EOF >> ${{ inputs.manifest_path }}/west.yml
           projects:
             - name: zephyr
@@ -83,6 +85,7 @@ runs:
       if: ${{ inputs.repository_revision }}
       shell: bash
       run: |
+        cd /6tron-workspace/
         cat << EOF >> ${{ inputs.manifest_path }}/west.yml
             - name: ${{ github.event.repository.name }}
               remote: catie-6tron
@@ -93,6 +96,7 @@ runs:
       if: ${{ inputs.sixtron_revision != '' && inputs.sixtron_module_allowlist == '' }}
       shell: bash
       run: |
+        cd /6tron-workspace/
         cat << EOF >> ${{ inputs.manifest_path }}/west.yml
             - name: 6tron-manifest
               remote: catie-6tron
@@ -106,6 +110,7 @@ runs:
       if: ${{ inputs.sixtron_revision != '' && inputs.sixtron_module_allowlist != '' }}
       shell: bash
       run: |
+        cd /6tron-workspace/
         allowlist=""
         for module in $(echo ${{ inputs.sixtron_module_allowlist }} | tr "," "\n"); do
           allowlist="$allowlist          - $module"$'\n'
@@ -125,6 +130,7 @@ runs:
       if: ${{ inputs.sixtron_connector_revision }}
       shell: bash
       run: |
+        cd /6tron-workspace/
         cat << EOF >> ${{ inputs.manifest_path }}/west.yml
             - name: 6tron_manifest
               remote: catie-6tron
@@ -138,11 +144,14 @@ runs:
 
     - name: cat west.yml
       shell: bash
-      run: cat ${{ inputs.manifest_path }}/west.yml
+      run: |
+        cd /6tron-workspace/
+        cat ${{ inputs.manifest_path }}/west.yml
 
     - name: Display tree
       shell: bash
       run: |
+        cd /6tron-workspace/
         apt update
         apt install -y tree
         tree -L 2 .

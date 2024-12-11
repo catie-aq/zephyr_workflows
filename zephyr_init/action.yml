@@ -20,6 +20,7 @@ runs:
     - name: Init and Update Zephyr Application
       shell: bash
       run: |
+        cd /6tron-workspace/
         rm -rf .west
         west init -l ${{ inputs.manifest_path }}
         west update

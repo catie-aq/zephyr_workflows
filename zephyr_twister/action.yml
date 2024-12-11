@@ -25,6 +25,7 @@ runs:
     - name: Run test with twister
       shell: bash
       run: |
+        cd /6tron-workspace/
         if [[ -n "${{ inputs.tags }}" ]]; then
           test=""
           for tag in $(echo ${{ inputs.tags }} | tr "," "\n"); do
