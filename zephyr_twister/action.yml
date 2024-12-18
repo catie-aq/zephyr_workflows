@@ -18,6 +18,11 @@ inputs:
     required: false
     type: string
     description: "Path to the test directory"
+  workspace-path:
+    required: false
+    type: string
+    description: "Path to the workspace"
+    default: "/6tron-workspace/"
 
 runs:
   using: "composite"
@@ -25,7 +30,7 @@ runs:
     - name: Run test with twister
       shell: bash
       run: |
-        cd /6tron-workspace/
+        cd ${{ inputs.workspace-path }}
         if [[ -n "${{ inputs.tags }}" ]]; then
           test=""
           for tag in $(echo ${{ inputs.tags }} | tr "," "\n"); do
