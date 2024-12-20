@@ -6,6 +6,10 @@ on:
       board:
         required: true
         type: string
+      container:
+        required: false
+        type: string
+        default: "ghcr.io/catie-aq/zephyr_docker:v0.27.4"
       tags:
         required: false
         type: string
@@ -27,11 +31,11 @@ jobs:
   twister:
     runs-on: sonu-github-arc
     container:
-      image: "zephyrprojectrtos/ci:v0.26.13"
+      image: ${{ inputs.container }}
       options: --user root --privileged
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
-      ZEPHYR_VERSION: "v3.7.0"
+      ZEPHYR_VERSION: "v4.0.0"
       TWISTER_OPTIONS: "--force-color --inline-logs -v --clobber-output"
     steps:
       - name: Run Extra Command
