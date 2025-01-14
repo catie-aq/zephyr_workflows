@@ -74,8 +74,15 @@ jobs:
           application: workdir/${{ inputs.application }}
           board: ${{ inputs.board }}
 
+      - name: Replace slashes with underscores in application variable
+        id: replace_slashes
+        run: |
+          application="${{ inputs.application }}"
+          application=$(echo "$application" | tr '/' '_')
+          echo "::set-output name=application::$application"
+
       - uses: actions/upload-artifact@v4
         if: ${{ inputs.artifact }}
         with:
-          name: binary_artifact
+          name: ${{ steps.replace_slashes.outputs.application }}
           path: ${{ inputs.artifact }}
