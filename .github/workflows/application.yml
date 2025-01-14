@@ -47,6 +47,11 @@ jobs:
         if: ${{ inputs.extra_cmd }}
         run: ${{ inputs.extra_cmd }}
 
+      - name: Copy key
+        if: ${{ inputs.pem_key_path }}
+        run: |
+          echo "${{ secrets.pem_key }}" > ${{ inputs.pem_key_path }}
+
       - uses: actions/checkout@v4
         with:
           path: workdir
