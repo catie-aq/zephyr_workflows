@@ -16,6 +16,9 @@ on:
         required: false
         type: string
         default: "zephyrprojectrtos/ci"
+      pem_key_path:
+        required: false
+        type: string
       extra_cmd:
         required: false
         type: string
@@ -24,7 +27,8 @@ on:
     secrets:
       personal_access_token:
         required: true
-
+      pem_key:
+        required: false
 
 permissions: read-all
 
@@ -42,6 +46,11 @@ jobs:
       - name: Extra command
         if: ${{ inputs.extra_cmd }}
         run: ${{ inputs.extra_cmd }}
+
+      - name: Copy key
+        if: ${{ inputs.pem_key_path }}
+        run: |
+          echo "${{ secrets.pem_key }}" > ${{ inputs.pem_key_path }}
 
       - uses: actions/checkout@v4
         with:
