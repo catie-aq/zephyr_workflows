@@ -24,6 +24,10 @@ on:
         type: string
         description: "Extra command to run before build"
         default: ""
+      artifact:
+        required: false
+        type: string
+        default: "build/zephyr/zephyr.bin"
     secrets:
       personal_access_token:
         required: true
@@ -69,3 +73,9 @@ jobs:
         with:
           application: workdir/${{ inputs.application }}
           board: ${{ inputs.board }}
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ inputs.artifact }}
+        with:
+          name: binary_artifact
+          path: ${{ inputs.artifact }}
