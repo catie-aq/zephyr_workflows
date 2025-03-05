@@ -9,7 +9,7 @@ on:
       container:
         required: false
         type: string
-        default: "ghcr.io/catie-aq/zephyr_docker:v0.27.4"
+        default: "ghcr.io/catie-aq/zephyr_docker:v4.0.0-202502-ci"
       tags:
         required: false
         type: string
