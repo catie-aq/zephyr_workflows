@@ -12,6 +12,9 @@ on:
       board:
         required: false
         type: string
+      build_extra_args:
+        required: false
+        type: string
       container:
         required: false
         type: string
@@ -76,6 +79,7 @@ jobs:
         with:
           application: workdir/${{ inputs.application }}
           board: ${{ inputs.board }}
+          extra_args: ${{ inputs.build_extra_args }}
 
       - name: Replace slashes with underscores in application variable
         id: replace_slashes

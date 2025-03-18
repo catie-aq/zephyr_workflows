@@ -12,6 +12,10 @@ inputs:
     required: false
     type: string
     default: ""
+  extra_args:
+    required: false
+    type: string
+    default: ""
 
 runs:
   using: "composite"
@@ -19,19 +23,19 @@ runs:
     - name: Build Zephyr Application
       shell: bash
       if: ${{ inputs.board != '' && inputs.shield != '' }}
-      run: west build -b ${{ inputs.board }} --shield ${{ inputs.shield }} ${{ inputs.application }} -p
+      run: west build -b ${{ inputs.board }} --shield ${{ inputs.shield }} ${{ inputs.application }} -p ${{ inputs.extra_args }}
 
     - name: Build Zephyr Application
       shell: bash
       if: ${{ inputs.board != '' &&  inputs.shield == '' }}
-      run: west build -b ${{ inputs.board }} ${{ inputs.application }} -p
+      run: west build -b ${{ inputs.board }} ${{ inputs.application }} -p ${{ inputs.extra_args }}
 
     - name: Build Zephyr Application
       shell: bash
       if: ${{ inputs.board == '' && inputs.shield != '' }}
-      run: west build --shield ${{ inputs.shield }} ${{ inputs.application }} -p
+      run: west build --shield ${{ inputs.shield }} ${{ inputs.application }} -p ${{ inputs.extra_args }}
 
     - name: Build Zephyr Application
       shell: bash
       if: ${{ inputs.board == '' && inputs.shield == '' }}
-      run: west build ${{ inputs.application }} -p
+      run: west build ${{ inputs.application }} -p ${{ inputs.extra_args }}
