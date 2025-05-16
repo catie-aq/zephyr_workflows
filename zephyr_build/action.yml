@@ -16,10 +16,19 @@ inputs:
     required: false
     type: string
     default: ""
+  overlay:
+    required: false
+    type: string
+    default: ""
 
 runs:
   using: "composite"
   steps:
+    - name: Overwrite Overlay
+      shell: bash
+      if: ${{ inputs.overlay != '' }}
+      run: echo "${{ inputs.overlay }}" > "${{ inputs.application }}/app.overlay"
+
     - name: Build Zephyr Application
       shell: bash
       if: ${{ inputs.board != '' && inputs.shield != '' }}
@@ -39,3 +48,8 @@ runs:
       shell: bash
       if: ${{ inputs.board == '' && inputs.shield == '' }}
       run: west build ${{ inputs.application }} -p ${{ inputs.extra_args }}
+
+    - name: Remove Overlay
+      shell: bash
+      if: ${{ inputs.overlay != '' }}
+      run: rm "${{ inputs.application }}/app.overlay"
