@@ -32,7 +32,7 @@ jobs:
     container: ${{ inputs.container }}
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
-      ZEPHYR_VERSION: "v4.0.0"
+      ZEPHYR_VERSION: "v4.1.0"
       TWISTER_OPTIONS: "--force-color --inline-logs -v --clobber-output --integration "
     steps:
       - name: Extra command

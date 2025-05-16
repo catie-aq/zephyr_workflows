@@ -31,7 +31,7 @@ jobs:
       options: --user root --privileged
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
-      ZEPHYR_VERSION: "v4.0.0"
+      ZEPHYR_VERSION: "v4.1.0"
     steps:
       - name: Run Extra Command
         shell: bash
