@@ -57,3 +57,4 @@ jobs:
           board: zest_core_stm32l4a6rg
           application: zephyr/samples/basic/blinky
           shield: ${{ inputs.shield }}
+          overlay: "${{ inputs.shield|upper|replace('-', '_') }}(1)"
