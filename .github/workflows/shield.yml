@@ -41,12 +41,34 @@ jobs:
         id: branch-names
         uses: tj-actions/branch-names@v8
 
-      - uses: catie-aq/zephyr_workflows/generate_manifest@main
-        with:
-          sixtron_revision: "main"
-          zephyr_revision: ${{ env.ZEPHYR_VERSION }}
-          sixtron_module_allowlist: "6tron_connector,zest_core_fmlr-72,zest_core_nrf52832,zest_core_nrf5340,zest_core_stm32g474ve,zest_core_stm32h753zi,zest_core_stm32l4a6rg,zest_core_stm32l562ve"
-          repository_revision: ${{ steps.branch-names.outputs.current_branch }}
+      - name: Generate YAML file
+        shell: bash
+        run: |
+          cat << EOF > workdir/west.yml
+          manifest:
+            remotes:
+              - name: zephyrproject-rtos
+                url-base: https://github.com/zephyrproject-rtos
+              - name: catie-6tron
+                url-base: https://github.com/catie-aq
+            projects:
+              - name: zephyr
+                remote: zephyrproject-rtos
+                revision: ${{ env.ZEPHYR_VERSION }}
+                import:
+                  name-allowlist:
+                    - cmsis
+                    - hal_stm32
+              - name: zephyr_zest-core-stm32l4a6rg
+                remote: catie-6tron
+                revision: main
+              - name: zephyr_6tron-connector
+                remote: catie-6tron
+                revision: main
+              - name: ${{ github.event.repository.name }}
+                remote: catie-6tron
+                revision: ${{ steps.branch-names.outputs.current_branch }}
+          EOF
 
       - uses: catie-aq/zephyr_workflows/zephyr_init@main
         with:
