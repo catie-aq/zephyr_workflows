@@ -74,9 +74,16 @@ jobs:
         with:
           personal_access_token: ${{ secrets.personal_access_token }}
 
+      - name: Transform Shield for Overlay
+        id: transform-shield
+        run: |
+          shield="${{ inputs.shield }}"
+          transformed_shield=$(echo "$shield" | tr '[:lower:]-' '[:upper:]_')
+          echo "transformed_shield=$transformed_shield" >> $GITHUB_ENV
+
       - uses: catie-aq/zephyr_workflows/zephyr_build@main
         with:
           board: zest_core_stm32l4a6rg
           application: zephyr/samples/basic/blinky
           shield: ${{ inputs.shield }}
-          overlay: "${{ inputs.shield|upper|replace('-', '_') }}(1)"
+          overlay: "${{ env.transformed_shield }}(1)"
