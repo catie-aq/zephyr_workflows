@@ -41,6 +41,12 @@ jobs:
         id: branch-names
         uses: tj-actions/branch-names@v8
 
+      - name: Create workdir/west.yml
+        shell: bash
+        run: |
+          mkdir -p workdir
+          touch workdir/west.yml
+
       - name: Generate YAML file
         shell: bash
         run: |
