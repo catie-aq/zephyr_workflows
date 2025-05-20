@@ -15,6 +15,10 @@ on:
         type: string
         description: "Extra command to run before build"
         default: "echo ''"
+      dependencies:
+        required: false
+        type: string
+        default: ""
     secrets:
       personal_access_token:
         required: true
@@ -76,6 +80,18 @@ jobs:
                 remote: catie-6tron
                 revision: ${{ steps.branch-names.outputs.current_branch }}
           EOF
+
+      - name: Add dependencies to YAML file
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.dependencies }}" ]; then
+            IFS=',' read -ra dependencies <<< "${{ inputs.dependencies }}"
+            for dependency in "${dependencies[@]}"; do
+              echo "  - name: $dependency" >> workdir/west.yml
+              echo "    remote: catie-6tron" >> workdir/west.yml
+              echo "    revision: main" >> workdir/west.yml
+            done
+          fi
 
       - uses: catie-aq/zephyr_workflows/zephyr_init@main
         with:
