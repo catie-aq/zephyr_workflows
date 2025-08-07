@@ -66,6 +66,7 @@ jobs:
                 import:
                   name-allowlist:
                     - cmsis
+                    - cmsis_6
                     - hal_stm32
               - name: zephyr_zest-core-stm32l4a6rg
                 remote: catie-6tron
