@@ -72,9 +72,10 @@ jobs:
         if: contains(inputs.board, 'stm32')
         shell: bash
         run: |
+          BOARD_PREFIX=$(echo "${{ inputs.board }}" | cut -d'/' -f1)
           cat << EOF >> workdir/west.yml
                     - hal_stm32
-              - name: zephyr_${{ inputs.board }}
+              - name: zephyr_${BOARD_PREFIX}
                 remote: catie-6tron
                 revision: main
 
@@ -82,10 +83,12 @@ jobs:
         if: contains(inputs.board, 'nrf')
         shell: bash
         run: |
+          BOARD_PREFIX=$(echo "${{ inputs.board }}" | cut -d'/' -f1)
           cat << EOF >> workdir/west.yml
                     - hal_nordic
-              - name: zephyr_${{ inputs.board }}
+              - name: zephyr_${BOARD_PREFIX}
                 remote: catie-6tron
+                revision: main
                 revision: main
 
       - name: Add 6TRON connector and current repo to YAML file
