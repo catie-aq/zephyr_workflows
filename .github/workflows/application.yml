@@ -18,7 +18,7 @@ on:
       container:
         required: false
         type: string
-        default: "ghcr.io/catie-aq/zephyr_docker:v4.2.0-202508-ci"
+        default: "ghcr.io/catie-aq/zephyr_docker:v4.3.0-202511-ci"
       pem_key_path:
         required: false
         type: string
