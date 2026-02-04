@@ -25,6 +25,11 @@ on:
         type: string
         description: "Comma-separated list of Zephyr modules to include in name-allowlist (e.g., 'cmsis,cmsis_6,hal_stm32')"
         default: "hal_stm32"
+      has_manifest:
+        required: false
+        type: boolean
+        description: "Import the driver's manifest (west.yml)"
+        default: false
     secrets:
       personal_access_token:
         required: true
@@ -102,8 +107,12 @@ jobs:
               - name: ${{ github.event.repository.name }}
                 remote: catie-6tron
                 revision: ${{ steps.branch-names.outputs.current_branch }}
-                import: true
           EOF
+          
+          # Add import: true conditionally if has_manifest is true
+          if [ "${{ inputs.has_manifest }}" = "true" ]; then
+            echo "            import: true" >> workdir/west.yml
+          fi
 
       - uses: catie-aq/zephyr_workflows/zephyr_init@main
         with:
