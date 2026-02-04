@@ -71,6 +71,9 @@ jobs:
               - name: zephyr_zest-core-stm32l4a6rg
                 remote: catie-6tron
                 revision: main
+              - name: zephyr_zest-core-nrf5340
+                remote: catie-6tron
+                revision: main
               - name: zephyr_6tron-connector
                 remote: catie-6tron
                 revision: main
