@@ -102,6 +102,7 @@ jobs:
               - name: ${{ github.event.repository.name }}
                 remote: catie-6tron
                 revision: ${{ steps.branch-names.outputs.current_branch }}
+                import: true
           EOF
 
       - uses: catie-aq/zephyr_workflows/zephyr_init@main
