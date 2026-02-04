@@ -20,6 +20,11 @@ on:
         required: false
         type: string
         default: "samples"
+      zephyr_modules:
+        required: false
+        type: string
+        description: "Comma-separated list of Zephyr modules to include in name-allowlist (e.g., 'cmsis,cmsis_6,hal_stm32')"
+        default: "hal_stm32"
     secrets:
       personal_access_token:
         required: true
@@ -67,7 +72,19 @@ jobs:
                   name-allowlist:
                     - cmsis
                     - cmsis_6
-                    - hal_stm32
+          EOF
+          
+          # Add Zephyr modules from the zephyr_modules input parameter
+          IFS=',' read -ra MODULES <<< "${{ inputs.zephyr_modules }}"
+          for module in "${MODULES[@]}"; do
+            module=$(echo "$module" | xargs)  # Trim whitespace
+            if [ -n "$module" ]; then
+              echo "          - $module" >> workdir/west.yml
+            fi
+          done
+          
+          # Add other projects
+          cat << EOF >> workdir/west.yml
               - name: zephyr_zest-core-stm32l4a6rg
                 remote: catie-6tron
                 revision: main
