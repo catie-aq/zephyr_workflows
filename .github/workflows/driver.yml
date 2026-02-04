@@ -3,7 +3,7 @@ name: Build & Test Zephyr Driver
 on:
   workflow_call:
     inputs:
-      board:
+      boards:
         required: false
         type: string
         default: "zest_core_stm32l4a6rg"
@@ -82,15 +82,20 @@ jobs:
               echo "          - $module" >> workdir/west.yml
             fi
           done
+
+          IFS=',' read -ra BOARDS <<< "${{ inputs.boards }}"
+          for board in "${BOARDS[@]}"; do
+            board=$(echo "$board" | xargs)  # Trim whitespace
+            board=${board//_/-} # Replace underscores with hyphens
+            if [ -n "$board" ]; then
+              echo "    - name: zephyr_$board" >> workdir/west.yml
+              echo "      remote: catie-6tron" >> workdir/west.yml
+              echo "      revision: main" >> workdir/west.yml
+            fi
+          done
           
           # Add other projects
           cat << EOF >> workdir/west.yml
-              - name: zephyr_zest-core-stm32l4a6rg
-                remote: catie-6tron
-                revision: main
-              - name: zephyr_zest-core-nrf5340
-                remote: catie-6tron
-                revision: main
               - name: zephyr_6tron-connector
                 remote: catie-6tron
                 revision: main
