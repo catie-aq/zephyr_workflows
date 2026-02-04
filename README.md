@@ -57,6 +57,7 @@ Ce workflow applique les étapes suivantes :
 | `container`             | Image Docker à utiliser pour l'exécution des commandes.                              |     Non     | `"zephyrprojectrtos/ci"`         |
 | `extra_cmd`             | Commandes supplémentaires à exécuter avant la compilation.                           |     Non     | ``                               |
 | `zephyr_modules`        | Liste des modules Zephyr à inclure dans le name-allowlist, séparés par des virgules. |     Non     | `"hal_stm32"`                    |
+| `has_manifest`          | Indique si le driver contient un manifest `west.yml` ou non.                         |     Non     | `false`                           |
 | `personal_access_token` | Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés.              |     Oui     |                                  |
 
 ```yaml
