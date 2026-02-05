@@ -50,13 +50,14 @@ Ce workflow applique les étapes suivantes :
 - Génération du fichier `west.yml` pour le projet Zephyr en utilisant l'action Generate Zephyr Manifest
 - Test de compilation du driver en utilisant l'action Zephyr Build
 
-| Input                   | Description                                                             | Obligatoire | Default                          |
-| ----------------------- | ----------------------------------------------------------------------- | :---------: | -------------------------------- |
-| `application`           | Chemin de l'application à compiler.                                     |     Non     | `"samples"`                      |
-| `board`                 | Cible à utiliser pour la compilation.                                   |     Non     | `"zest_core_stm32l4a6rg"`        |
-| `container`             | Image Docker à utiliser pour l'exécution des commandes.                 |     Non     | `"zephyrprojectrtos/ci"`         |
-| `extra_cmd`             | Commandes supplémentaires à exécuter avant la compilation.              |     Non     | ``                               |
-| `personal_access_token` | Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés. |     Oui     |                                  |
+| Input                   | Description                                                                          | Obligatoire | Default                          |
+| ----------------------- | ------------------------------------------------------------------------------------ | :---------: | -------------------------------- |
+| `path`                  | Chemin de l'application à compiler.                                                  |     Non     | `"samples"`                      |
+| `boards`                | Liste des cibles à utiliser pour la compilation, séparées par des virgules.          |     Non     | `"zest_core_stm32l4a6rg"`        |
+| `container`             | Image Docker à utiliser pour l'exécution des commandes.                              |     Non     | `"zephyrprojectrtos/ci"`         |
+| `extra_cmd`             | Commandes supplémentaires à exécuter avant la compilation.                           |     Non     | ``                               |
+| `zephyr_modules`        | Liste des modules Zephyr à inclure dans le name-allowlist, séparés par des virgules. |     Non     | `"hal_stm32"`                    |
+| `personal_access_token` | Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés.              |     Oui     |                                  |
 
 ```yaml
 name: "Zephyr Driver CI/CD"
