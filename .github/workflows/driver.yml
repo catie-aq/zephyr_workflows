@@ -111,7 +111,7 @@ jobs:
           
           # Add import: true conditionally if has_manifest is true
           if [ "${{ inputs.has_manifest }}" = "true" ]; then
-            echo "            import: true" >> workdir/west.yml
+            echo "      import: true" >> workdir/west.yml
           fi
 
       - uses: catie-aq/zephyr_workflows/zephyr_init@main
