@@ -85,7 +85,8 @@ jobs:
         id: transform-shield
         run: |
           shield="${{ inputs.shield }}"
-          transformed_shield=$(echo "$shield" | tr '[:lower:]-' '[:upper:]_')
+          # Convert to uppercase with '_' (instead of '-'), remove x_x_x-style version patterns.
+          transformed_shield=$(echo "$shield" | tr '[:lower:]-' '[:upper:]_' | sed -E 's/[0-9]+_[0-9]+_[0-9]+//g; s/__+/_/g; s/^_+//; s/_+$//')
           echo "transformed_shield=$transformed_shield" >> $GITHUB_ENV
 
       - uses: catie-aq/zephyr_workflows/zephyr_build@main
