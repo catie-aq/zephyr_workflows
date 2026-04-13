@@ -7,6 +7,10 @@ on:
         required: false
         type: string
         default: "zest_core_stm32l4a6rg"
+      shields:
+        required: false
+        type: string
+        default: ""
       container:
         required: false
         type: string
@@ -99,6 +103,17 @@ jobs:
             fi
           done
           
+          IFS=',' read -ra SHIELDS <<< "${{ inputs.shields }}"
+          for shield in "${SHIELDS[@]}"; do
+            shield=$(echo "$shield" | xargs)  # Trim whitespace
+            shield=${shield//_/-} # Replace underscores with hyphens
+            if [ -n "$shield" ]; then
+              echo "    - name: zephyr_$shield" >> workdir/west.yml
+              echo "      remote: catie-6tron" >> workdir/west.yml
+              echo "      revision: main" >> workdir/west.yml
+            fi
+          done
+
           # Add other projects
           cat << EOF >> workdir/west.yml
               - name: zephyr_6tron-connector
