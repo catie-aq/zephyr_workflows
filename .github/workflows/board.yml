@@ -9,7 +9,7 @@ on:
       container:
         required: false
         type: string
-        default: "ghcr.io/catie-aq/zephyr_docker:v4.3.0-202511-ci"
+        default: "ghcr.io/catie-aq/zephyr_docker:v4.4.0-202605-ci"
       tags:
         required: false
         type: string
@@ -35,7 +35,7 @@ jobs:
       options: --user root --privileged
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
-      ZEPHYR_VERSION: "v4.3.0"
+      ZEPHYR_VERSION: "v4.4.0"
       TWISTER_OPTIONS: "--force-color --inline-logs -v --clobber-output"
     steps:
       - name: Run Extra Command
