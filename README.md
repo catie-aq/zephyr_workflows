@@ -1,100 +1,30 @@
+---
+titre: Zephyr Workflows
+---
+
 # Zephyr Workflows
 
-Ce dépôt contient une collection de workflows réutilisables, spécifiquement conçus pour la construction et les tests de Zephyr, utilisables dans
-le cadre d'Actions Github.
+Ce dépôt contient des workflows GitHub Actions réutilisables et des actions composites pour compiler et tester des applications, cartes, drivers et shields Zephyr. Vue d'ensemble de tous les workflows `catie-aq` : dépôt `catie-aq/sonu_workflow` (REF-001).
 
-## Workflows Disponibles
+## Workflows réutilisables
 
-### Application
+| Workflow | Rôle | Doc |
+| -------------------- | ---------------------------------------- | ---- |
+| `application.yml` | Compile une application Zephyr (signature MCUboot, blobs, artefact en option). | [Compilation d'une application Zephyr](docs/application.md) |
+| `board.yml` | Lance Twister sur une carte, filtré par tags de périphériques. | [Test d'une carte Zephyr](docs/board.md) |
+| `driver.yml` | Assemble un manifeste avec les cartes demandées et lance Twister en mode intégration. | [Test d'un driver Zephyr](docs/driver.md) |
+| `lib.yml` | Squelette : affiche « Hello world », ne compile rien. | [Bibliothèque Zephyr (squelette)](docs/lib.md) |
+| `shield.yml` | Compile `blinky` sur `zest_core_stm32l4a6rg` avec le shield du dépôt. | [Test d'un shield Zephyr](docs/shield.md) |
 
-Ce workflow applique les étapes suivantes :
+## Actions composites
 
-- Vérification de pre-commit si le fichier `.pre-commit-config.yaml` est présent dans le dépôt
-- Test de compilation de l'application en utilisant l'action Zephyr Build
-Le workflow possède les paramètres suivants :
-
-- `container` : Image Docker à utiliser pour l'exécution des commandes. Par défaut : `zephyrprojectrtos/ci`
-- `board` : Cible à utiliser pour la compilation.
-- `application` : Chemin de l'application à compiler. **Obligatoire**.
-- `extra_cmd` : Commandes supplémentaires à exécuter avant la compilation. Par défaut : ``
-- `personal_access_token` : Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés. **Obligatoire**.
-
-| Input                   | Description                                                             | Obligatoire | Default                |
-| ----------------------- | ----------------------------------------------------------------------- | ----------- | ---------------------- |
-| `container`             | Image Docker à utiliser pour l'exécution des commandes.                 | Non         | `zephyrprojectrtos/ci` |
-| `board`                 | Cible à utiliser pour la compilation.                                   | Non         |                        |
-| `application`           | Chemin de l'application à compiler.                                     | Oui         |                        |
-| `extra_cmd`             | Commandes supplémentaires à exécuter avant la compilation.              | Non         | ``                     |
-| `personal_access_token` | Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés. | Oui         |                        |
-
-```yaml
-name: "Zephyr Application CI/CD"
-on:
-  push:
-
-jobs:
-  ros:
-    uses: catie-aq/zephyr_workflows/.github/workflows/application.yml@main
-    with:
-      board: "zest_core_stm32l4a6rg"
-      application: "hello_world"
-    secrets:
-      personal_access_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-```
-
-### Driver
-
-Ce workflow applique les étapes suivantes :
-
-- Vérification de pre-commit si le fichier `.pre-commit-config.yaml` est présent dans le dépôt
-- Génération du fichier `west.yml` pour le projet Zephyr en utilisant l'action Generate Zephyr Manifest
-- Test de compilation du driver en utilisant l'action Zephyr Build
-
-| Input                   | Description                                                                          | Obligatoire | Default                          |
-| ----------------------- | ------------------------------------------------------------------------------------ | :---------: | -------------------------------- |
-| `path`                  | Chemin de l'application à compiler.                                                  |     Non     | `"samples"`                      |
-| `boards`                | Liste des cibles à utiliser pour la compilation, séparées par des virgules.          |     Non     | `"zest_core_stm32l4a6rg"`        |
-| `container`             | Image Docker à utiliser pour l'exécution des commandes.                              |     Non     | `"zephyrprojectrtos/ci"`         |
-| `extra_cmd`             | Commandes supplémentaires à exécuter avant la compilation.                           |     Non     | ``                               |
-| `zephyr_modules`        | Liste des modules Zephyr à inclure dans le name-allowlist, séparés par des virgules. |     Non     | `"hal_stm32"`                    |
-| `has_manifest`          | Indique si le driver contient un manifest `west.yml` ou non.                         |     Non     | `false`                           |
-| `personal_access_token` | Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés.              |     Oui     |                                  |
-
-```yaml
-name: "Zephyr Driver CI/CD"
-
-on: [push, workflow_dispatch]
-
-jobs:
-  zephyr-driver:
-    uses: catie-aq/zephyr_workflows/.github/workflows/driver.yml@main
-    with:
-      zephyr_revision: 'v3.4.0'
-    secrets:
-      personal_access_token: ${{ secrets.PAT }}
-```
-
-## Actions Disponibles
-
-### Zephyr Build
-
-Cette action permet de compiler une application Zephyr. Elle prend en charge les paramètres suivants :
-
-| Input                   | Description                                                             | Obligatoire | Default |
-| ----------------------- | ----------------------------------------------------------------------- | ----------- | ------- |
-| `board`                 | Cible à utiliser pour la compilation.                                   | Non         |         |
-| `application`           | Chemin de l'application à compiler.                                     | Oui         |         |
-| `personal_access_token` | Token d'accès personnel (PAT) à utiliser pour cloner les dépôts privés. | Oui         |         |
-
-### Generate Zephyr Manifest
-
-Cette action génère un fichier `west.yml` pour le projet Zephyr.
-
-| Input                 | Description                                                         | Obligatoire | Default |
-| --------------------- | ------------------------------------------------------------------- | ----------- | ------- |
-| `6tron_revision`      | La révision (comme un tag ou un nom de branche) du manifest Zephyr. | Oui         |         |
-| `repository_revision` | La révision du dépôt.                                               | Oui         |         |
-| `repo_board`          | Le nom du tableau du dépôt.                                         | Oui         |         |
+| Action | Rôle | Doc |
+| -------------------- | ---------------------------------------- | ---- |
+| `generate_manifest` | Écrit `workdir/west.yml` (Zephyr, dépôt courant, manifeste 6TRON en option). | [generate_manifest](generate_manifest/README.md) |
+| `update_manifest` | Met à jour les révisions d'un manifeste et publie les changements en artefacts. | [update_manifest](update_manifest/README.md) |
+| `zephyr_build` | Compile une application avec `west build` (carte, shield, overlay). | [zephyr_build](zephyr_build/README.md) |
+| `zephyr_init` | Configure les identifiants Git, puis `west init -l workdir` et `west update`. | [zephyr_init](zephyr_init/README.md) |
+| `zephyr_twister` | Lance `west twister` (tags, carte, dossier, options). | [zephyr_twister](zephyr_twister/README.md) |
 
 ## Licence
 
