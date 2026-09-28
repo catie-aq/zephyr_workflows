@@ -14,7 +14,7 @@ Fichier : `generate_manifest/action.yml` · Type : action composite
 steps:
   - uses: catie-aq/zephyr_workflows/generate_manifest@main
     with:
-      zephyr_revision: "v4.3.0"
+      zephyr_revision: "v4.4.0"
       repository_revision: ${{ github.ref_name }}
       sixtron_connector_revision: "main"
 ```

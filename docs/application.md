@@ -36,7 +36,7 @@ Le dépôt appelant doit contenir un `west.yml` à sa racine (utilisé par `west
 | `blobs` | string | Arguments de `west blobs fetch` (ex. `hal_espressif`) ; étape sautée si vide. | non | |
 | `board` | string | Carte cible passée à `west build -b` ; sans carte, `west build` sans `-b`. | non | |
 | `build_extra_args` | string | Arguments ajoutés en fin de `west build` (ex. `-- -DCONFIG_...=y`). | non | |
-| `container` | string | Image Docker du job de compilation. | non | `ghcr.io/catie-aq/zephyr_docker:v4.3.0-202511-ci` |
+| `container` | string | Image Docker du job de compilation. | non | `ghcr.io/catie-aq/zephyr_docker:v4.4.0-202605-ci` |
 | `pem_key_path` | string | Chemin, relatif au dépôt, où écrire la clé de signature MCUboot `pem_key` ; active la signature. | non | |
 | `extra_cmd` | string | Commande exécutée avant toute autre étape (description du code : « Extra command to run before build »). | non | |
 | `artifact` | string | Chemin du ou des fichiers à publier comme artefact ; aucun artefact si vide. | non | |
