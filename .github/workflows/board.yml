@@ -10,6 +10,11 @@ on:
         required: false
         type: string
         default: "ghcr.io/catie-aq/zephyr_docker:v4.4.0-202605-ci"
+      zephyr_version:
+        required: false
+        type: string
+        description: "Zephyr revision (tag or branch) used in the west manifest"
+        default: "v4.4.0"
       tags:
         required: false
         type: string
@@ -35,7 +40,6 @@ jobs:
       options: --user root --privileged
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
-      ZEPHYR_VERSION: "v4.4.0"
       TWISTER_OPTIONS: "--force-color --inline-logs -v --clobber-output"
     steps:
       - name: Run Extra Command
@@ -48,7 +52,7 @@ jobs:
 
       - uses: catie-aq/zephyr_workflows/generate_manifest@main
         with:
-          zephyr_revision: ${{ env.ZEPHYR_VERSION }}
+          zephyr_revision: ${{ inputs.zephyr_version }}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
           sixtron_connector_revision: "main"
 
