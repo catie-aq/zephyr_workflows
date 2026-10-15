@@ -10,6 +10,11 @@ on:
         required: false
         type: string
         default: "ghcr.io/catie-aq/zephyr_docker:v4.4.0-202605-ci"
+      zephyr_version:
+        required: false
+        type: string
+        description: "Zephyr revision (tag or branch) used in the west manifest"
+        default: "v4.4.0"
       extra_cmd:
         required: false
         type: string
@@ -31,7 +36,6 @@ jobs:
       options: --user root --privileged
     env:
       CMAKE_PREFIX_PATH: /opt/toolchains
-      ZEPHYR_VERSION: "v4.4.0"
     steps:
       - name: Run Extra Command
         shell: bash
@@ -60,7 +64,7 @@ jobs:
             projects:
               - name: zephyr
                 remote: zephyrproject-rtos
-                revision: ${{ env.ZEPHYR_VERSION }}
+                revision: ${{ inputs.zephyr_version }}
                 import:
                   name-allowlist:
                     - cmsis
