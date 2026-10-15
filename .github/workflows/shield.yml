@@ -15,6 +15,11 @@ on:
         type: string
         description: "Extra command to run before build"
         default: "echo ''"
+      application:
+        required: false
+        type: string
+        description: "Application path to build"
+        default: "zephyr/samples/basic/blinky"
     secrets:
       personal_access_token:
         required: true
@@ -91,6 +96,6 @@ jobs:
       - uses: catie-aq/zephyr_workflows/zephyr_build@main
         with:
           board: zest_core_stm32l4a6rg
-          application: zephyr/samples/basic/blinky
+          application: ${{ inputs.application }}
           shield: ${{ inputs.shield }}
           overlay: "${{ env.transformed_shield }}(1)"
