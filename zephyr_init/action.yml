@@ -18,4 +18,4 @@ runs:
       run: |
         rm -rf .west
         west init -l workdir
-        west update
+        west update --narrow -o=--depth=1

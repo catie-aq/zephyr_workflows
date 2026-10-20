@@ -38,7 +38,7 @@ Aucune.
 Étapes (toutes en `bash`) :
 
 1. `git config --global credential.helper store`, puis écriture de `https://$GITHUB_ACTOR:<jeton>@github.com` dans `~/.git-credentials`.
-2. `rm -rf .west`, `west init -l workdir`, `west update`.
+2. `rm -rf .west`, `west init -l workdir`, `west update --narrow -o=--depth=1`.
 
 ## Dépendances
 
