@@ -15,11 +15,10 @@ on:
         required: false
         type: string
         default: "ghcr.io/catie-aq/zephyr_docker:v4.4.0-202605-ci"
-      zephyr_version:
+      zephyr_revision:
         required: false
         type: string
-        description: "Zephyr revision (tag or branch) used in the west manifest"
-        default: "v4.4.0"
+        description: "Zephyr revision (tag or branch) used in the west manifest, v4.4.0 if empty"
       extra_cmd:
         required: false
         type: string
@@ -80,7 +79,7 @@ jobs:
             projects:
               - name: zephyr
                 remote: zephyrproject-rtos
-                revision: ${{ inputs.zephyr_version }}
+                revision: ${{ inputs.zephyr_revision || 'v4.4.0' }}
                 import:
                   name-allowlist:
                     - cmsis

@@ -30,7 +30,7 @@ jobs:
 | ------------ | ------- | ---------------------------------------- | ----- | ------------ |
 | `board` | string | Carte passée à Twister (`-p <board>`). | oui | |
 | `container` | string | Image Docker du job Twister. | non | `ghcr.io/catie-aq/zephyr_docker:v4.4.0-202605-ci` |
-| `zephyr_version` | string | Révision de Zephyr (tag ou branche) écrite dans le manifeste `west.yml` ; à garder cohérente avec l'image `container`. | non | `v4.4.0` |
+| `zephyr_revision` | string | Révision de Zephyr (tag ou branche) écrite dans le manifeste `west.yml` ; à garder cohérente avec l'image `container`. | non | `v4.4.0` (aussi si chaîne vide) |
 | `tags` | string | Tags Twister séparés par des virgules (un `-t` par tag). | non | `DAC,ieee802154,counter,gpio,serial,i2c,i3c,UART,qspi,pwm,button,usb,spi,lora,i2s,mipi_dbi,wifi,ethernet,nvs,uart,dma,clock_control,usbc,watchdog,dac,w1,input,peci,can,bluetooth,adc,clock` |
 | `extra_cmd` | string | Commande exécutée en premier (description du code : « Extra command to run before build »). | non | `echo ''` |
 
@@ -55,7 +55,7 @@ Job `twister` (runner `sonu-github-arc`, conteneur `${{ inputs.container }}` ave
 
 1. `extra_cmd` exécutée (toujours, `echo ''` par défaut).
 2. `tj-actions/branch-names@v8` : nom de la branche courante.
-3. `catie-aq/zephyr_workflows/generate_manifest@main` : `workdir/west.yml` avec Zephyr à `zephyr_version`, le dépôt appelant à la branche courante et le manifeste `zephyr_6tron-manifest` (révision `main`) limité au module `6tron_connector`.
+3. `catie-aq/zephyr_workflows/generate_manifest@main` : `workdir/west.yml` avec Zephyr à `zephyr_revision`, le dépôt appelant à la branche courante et le manifeste `zephyr_6tron-manifest` (révision `main`) limité au module `6tron_connector`.
 4. `catie-aq/zephyr_workflows/zephyr_init@main` : `west init -l workdir` puis `west update`.
 5. `catie-aq/zephyr_workflows/zephyr_twister@main` avec `board`, `tags` et `TWISTER_OPTIONS`.
 

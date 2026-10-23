@@ -10,11 +10,10 @@ on:
         required: false
         type: string
         default: "ghcr.io/catie-aq/zephyr_docker:v4.4.0-202605-ci"
-      zephyr_version:
+      zephyr_revision:
         required: false
         type: string
-        description: "Zephyr revision (tag or branch) used in the west manifest"
-        default: "v4.4.0"
+        description: "Zephyr revision (tag or branch) used in the west manifest, v4.4.0 if empty"
       tags:
         required: false
         type: string
@@ -52,7 +51,7 @@ jobs:
 
       - uses: catie-aq/zephyr_workflows/generate_manifest@main
         with:
-          zephyr_revision: ${{ inputs.zephyr_version }}
+          zephyr_revision: ${{ inputs.zephyr_revision || 'v4.4.0' }}
           repository_revision: ${{ steps.branch-names.outputs.current_branch }}
           sixtron_connector_revision: "main"
 

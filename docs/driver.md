@@ -32,7 +32,7 @@ jobs:
 | `boards` | string | Cartes séparées par des virgules ; chacune ajoute le dépôt `zephyr_<carte>` (les `_` deviennent `-`) au manifeste. | non | `zest_core_stm32l4a6rg` |
 | `shields` | string | Shields séparés par des virgules ; chacun ajoute le dépôt `zephyr_<shield>` (les `_` deviennent `-`) au manifeste. | non | `""` |
 | `container` | string | Image Docker du job Twister. | non | `ghcr.io/catie-aq/zephyr_docker:v4.4.0-202605-ci` |
-| `zephyr_version` | string | Révision de Zephyr (tag ou branche) écrite dans le manifeste `west.yml` ; à garder cohérente avec l'image `container`. | non | `v4.4.0` |
+| `zephyr_revision` | string | Révision de Zephyr (tag ou branche) écrite dans le manifeste `west.yml` ; à garder cohérente avec l'image `container`. | non | `v4.4.0` (aussi si chaîne vide) |
 | `extra_cmd` | string | Commande exécutée en premier si elle est renseignée (description du code : « Extra command to run before build »). | non | `""` |
 | `path` | string | Dossier des tests, relatif au dépôt du driver (`-T <dépôt>/<path>`). | non | `samples` |
 | `zephyr_modules` | string | Modules Zephyr ajoutés à la `name-allowlist`, séparés par des virgules (ex. `cmsis,cmsis_6,hal_stm32`). | non | `hal_stm32` |
@@ -61,7 +61,7 @@ Job `twister` (runner `sonu-github-arc`, conteneur `${{ inputs.container }}` san
 2. `tj-actions/branch-names@v8` : nom de la branche courante.
 3. Génération de `workdir/west.yml` (script shell dans le workflow, sans l'action `generate_manifest`) :
    - remotes `zephyrproject-rtos` (`https://github.com/zephyrproject-rtos`) et `catie-6tron` (`https://github.com/catie-aq`) ;
-   - projet `zephyr` à `zephyr_version`, `name-allowlist` : `cmsis`, `cmsis_6` puis chaque module de `zephyr_modules` ;
+   - projet `zephyr` à `zephyr_revision`, `name-allowlist` : `cmsis`, `cmsis_6` puis chaque module de `zephyr_modules` ;
    - un projet `zephyr_<carte>` (révision `main`) par carte de `boards` ;
    - un projet `zephyr_<shield>` (révision `main`) par shield de `shields` ;
    - `zephyr_6tron-connector` (révision `main`) ;
